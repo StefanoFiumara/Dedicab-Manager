@@ -1,0 +1,50 @@
+﻿<Window x:Class="DedicabUtility.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DedicabUtility.Client"
+        xmlns:navigation="clr-namespace:DedicabUtility.Client.Modules.Navigation"
+        xmlns:errorPopup="clr-namespace:DedicabUtility.Client.Modules.ErrorPopup"
+        xmlns:controls="clr-namespace:DedicabUtility.Client.Controls"
+        mc:Ignorable="d"
+        Background="{StaticResource BackgroundColor}"
+        Title="Fano's Dedicab Utility"
+        Icon="Images/window_icon.png" ResizeMode="CanMinimize"
+        Width="980" Height="1050" WindowStartupLocation="CenterScreen"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
+        d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
+    <Grid>
+        <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <navigation:NavigationControl Grid.Row="0" DataContext="{Binding}" />
+
+            <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
+            <DockPanel>
+                <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                            <Run Text="Stepmania Install Location: " />
+                            <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
+                                <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
+                                Command="{Binding BrowseForInstallLocationCommand}"/>
+                    </StackPanel>
+                </Border>
+                
+                <ContentControl  DockPanel.Dock="Top" Content="{Binding SelectedViewModel}"/>
+                
+            </DockPanel>
+            </controls:BusyIndicator>
+        </Grid>
+    </Grid>
+    
+</Window>

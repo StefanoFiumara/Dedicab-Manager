@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="DedicabUtility.Client.Modules.Navigation.NavigationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:client="clr-namespace:DedicabUtility.Client"
+             d:DataContext="{d:DesignInstance client:MainWindowViewModel}"
+             mc:Ignorable="d">
+    <Border Style="{StaticResource PanelBorderStyle}">
+        <StackPanel Orientation="Horizontal" Margin="5,5,5,10">
+            <Button Style="{StaticResource NavigationButtonStyle}"
+                    Command="{Binding SongOverviewNavigationCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}">
+                <StackPanel>
+                    <Image Source="../../Images/songs.png" HorizontalAlignment="Center"
+                           Width="64" Height="64" Margin="5" />
+                    <TextBlock Text="Song Overview" HorizontalAlignment="Center" FontSize="12" Margin="5"
+                               Foreground="White" />
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource NavigationButtonStyle}"
+                    Command="{Binding TournamentManagementNavigationCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}">
+                <StackPanel>
+                    <Image Source="../../Images/tournament.png" HorizontalAlignment="Center"
+                           Width="64" Height="64" Margin="5" />
+                    <TextBlock Text="Tournament Set" HorizontalAlignment="Center" FontSize="12" Margin="5"
+                               Foreground="White" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>

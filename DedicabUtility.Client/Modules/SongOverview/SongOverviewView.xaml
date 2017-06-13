@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="DedicabUtility.Client.Modules.SongOverview.SongOverviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DedicabUtility.Client.Modules.SongOverview"
+             xmlns:controls="clr-namespace:FanoMvvm.Controls;assembly=FanoMvvm"
+             mc:Ignorable="d" d:DesignWidth="980" d:DesignHeight="730"
+             x:Name="SongOverviewRoot"
+             d:DataContext="{d:DesignInstance local:SongOverviewViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Orientation="Vertical">
+                <DockPanel>
+                    <TextBlock Text="Song Groups" Style="{StaticResource LabelStyle}" VerticalAlignment="Center"/>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource ButtonStyle}" Content="Add Songs" Command="{Binding AddSongsCommand}"/>
+                </DockPanel>
+                <ListBox Margin="5" Height="450" 
+                         ItemsSource="{Binding DataProvider.SongGroups}"
+                         SelectedItem="{Binding Model.SelectedSongGroup}" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource PanelBorderStyle}">
+            <StackPanel Orientation="Vertical">
+                <DockPanel>
+                    <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" />
+                    <Button HorizontalAlignment="Right" Style="{StaticResource NegativeButtonStyle}" 
+                            Content="Remove Song"
+                            Command="{Binding RemoveSongCommand}"
+                            CommandParameter="{Binding Model.SelectedSong}"/>
+                </DockPanel>
+                
+                <ListBox Margin="5" Height="450" 
+                         ItemsSource="{Binding Model.SelectedSongGroup.Songs}"
+                         SelectedItem="{Binding Model.SelectedSong}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource PanelBorderStyle}" Margin="10,0,15,5">
+            <StackPanel Orientation="Vertical">
+                <ContentControl Content="{Binding Model.SelectedSong}" Visibility="{Binding Model.SelectedSong, Converter={StaticResource NullToVisibilityConverter}}"
+                                ContentTemplate="{StaticResource SongDetailTemplate}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="BackgroundColor" Color="#BFBFBF" />
+    <SolidColorBrush x:Key="PanelColor" Color="#F2F2F2" />
+    <SolidColorBrush x:Key="TextColor" Color="#4A4A4A" />
+    <SolidColorBrush x:Key="ThemeColor1" Color="#1A5FFC" />
+    <SolidColorBrush x:Key="ThemeColor2" Color="#1D3FFB" />
+    <SolidColorBrush x:Key="ThemeColor3" Color="#142CB0" />
+    <SolidColorBrush x:Key="ThemeColor4" Color="#305085" />
+    <!-- TODO: Cancel/Delete Button Color -->
+</ResourceDictionary>

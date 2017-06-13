@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="DedicabUtility.Client.Modules.ErrorPopup.ErrorPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DedicabUtility.Client"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
+    <Border Background="#88000000">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.95*"/>
+                <RowDefinition />
+                <RowDefinition Height="0.95*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="1" Margin="5,10" Style="{StaticResource PanelBorderStyle}">
+                <DockPanel LastChildFill="False">
+                    <Image Source="{Binding Model.ErrorPopupModel.MessageIcon, Converter={StaticResource MessageIconToImageConverter}}" Width="48" Height="48" HorizontalAlignment="Left" Margin="5" DockPanel.Dock="Top" />
+                    <TextBlock Style="{StaticResource LabelStyle}" DockPanel.Dock="Top"
+                               FontSize="24" Text="{Binding Model.ErrorPopupModel.Title}" />
+                    <TextBlock Style="{StaticResource TextStyle}" DockPanel.Dock="Top"
+                               Text="{Binding Model.ErrorPopupModel.Message}" />
+                    <Button Style="{StaticResource ButtonStyle}" DockPanel.Dock="Bottom"
+                            Content="Close" HorizontalAlignment="Right"
+                            Command="{Binding ClosePopupCommand}"/> 
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>
