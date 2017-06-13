@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicabUtility.Client", "DedicabUtility.Client\DedicabUtility.Client.csproj", "{3101CA51-8726-4D10-8334-9AD5C001754A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E0798032-5B07-4072-AB39-5871E7972C5C}"
 	ProjectSection(SolutionItems) = preProject
 		lib\FanoMvvm.dll = lib\FanoMvvm.dll
@@ -12,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E0798032-5B0
 		lib\StepmaniaUtils.dll = lib\StepmaniaUtils.dll
 		lib\StepmaniaUtils.pdb = lib\StepmaniaUtils.pdb
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8998D4F-C270-4D47-94EC-950AD3D66ADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicabUtility.Client", "src\DedicabUtility.Client\DedicabUtility.Client.csproj", "{3101CA51-8726-4D10-8334-9AD5C001754A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,5 +28,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3101CA51-8726-4D10-8334-9AD5C001754A} = {F8998D4F-C270-4D47-94EC-950AD3D66ADF}
 	EndGlobalSection
 EndGlobal
