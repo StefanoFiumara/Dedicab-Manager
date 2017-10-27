@@ -7,6 +7,7 @@ using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using DedicabUtility.Client.Exceptions;
 
 namespace DedicabUtility.UnitTests
 {
@@ -62,7 +63,7 @@ namespace DedicabUtility.UnitTests
         [TestMethod]
         [DeploymentItem(@"TestData\ITG", @"Songs\ITG")]
         [DeploymentItem(@"TestData\NewSongs", @"NewSongs\NewPack")]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(DuplicateSongPackException))]
         public void AddSongDataWithExistingPackNameTest()
         {
             var newSongs = Directory.EnumerateFiles(@"NewSongs\NewPack", "*.sm", SearchOption.AllDirectories).Select(s => new FileInfo(s));

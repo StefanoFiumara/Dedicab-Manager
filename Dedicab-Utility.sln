@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8998D4F-C27
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicabUtility.Client", "src\DedicabUtility.Client\DedicabUtility.Client.csproj", "{3101CA51-8726-4D10-8334-9AD5C001754A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicabUtility.UnitTests", "DedicabUtility.UnitTests\DedicabUtility.UnitTests.csproj", "{9F197505-0109-4AA6-BEE0-5EF3024CB7F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DedicabUtility.UnitTests", "src\DedicabUtility.UnitTests\DedicabUtility.UnitTests.csproj", "{9F197505-0109-4AA6-BEE0-5EF3024CB7F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
