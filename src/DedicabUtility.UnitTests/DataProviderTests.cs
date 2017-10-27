@@ -53,6 +53,7 @@ namespace DedicabUtility.UnitTests
             Assert.AreEqual("NewPack", newSongGroup.Name);
 
             //TODO: This test cannot verify that all the related sm file content (mp3/ogg, banners) is copied alongside the .sm to the proper directory.
+            //TODO: We may need some dummy files to ensure this requirement is covered.
             var allGroups = this.DataProvider.GetUpdatedSongData(stepmaniaRoot, new Progress<string>(s => { }));
             Assert.AreEqual(2, allGroups.Count);
             Assert.AreEqual(72, allGroups.SelectMany(g => g.Songs).Count());
