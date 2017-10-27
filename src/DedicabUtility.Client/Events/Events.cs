@@ -7,7 +7,7 @@ namespace DedicabUtility.Client.Events
 
     public abstract class TournamentManagerNavigationEvent : BaseEvent { }
 
-    public abstract class ShowPopupEvent : BaseEvent<ShowPopupEventArgs> { }
+    public abstract class PopupEvent : BaseEvent<PopupEventArgs> { }
 
     public abstract class SetIsBusyEvent : BaseEvent<IsBusyEventArgs> { }
 
@@ -25,13 +25,13 @@ namespace DedicabUtility.Client.Events
         public bool BusyState { get; set; }
     }
 
-    public class ShowPopupEventArgs
+    public class PopupEventArgs
     {
         public string Title { get; }
         public string Message { get;  }
         public MessageIcon MessageIcon { get; }
 
-        public ShowPopupEventArgs(string title, string message, MessageIcon icon = MessageIcon.Success)
+        public PopupEventArgs(string title, string message, MessageIcon icon = MessageIcon.Success)
         {
             this.Title = title;
             this.Message = message;

@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DedicabUtility.Client.Annotations;
+using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using StepmaniaUtils.Core;
+using StepmaniaUtils.Enums;
 
 namespace DedicabUtility.Client.Services
 {
@@ -21,6 +23,7 @@ namespace DedicabUtility.Client.Services
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        //TODO: We need to reconsider where we put this model, this is a service.
         private ObservableCollection<SongGroupModel> _songGroups;
         public ObservableCollection<SongGroupModel> SongGroups
         {
@@ -31,6 +34,11 @@ namespace DedicabUtility.Client.Services
                 this._songGroups = value;
                 this.OnPropertyChanged();
             }
+        }
+
+        public DedicabDataProvider()
+        {
+            this.SongGroups = new ObservableCollection<SongGroupModel>();
         }
 
         public List<SongGroupModel> GetUpdatedSongData(DirectoryInfo stepmaniaRoot, IProgress<string> progress)
@@ -92,6 +100,58 @@ namespace DedicabUtility.Client.Services
             }
 
             return new List<SongGroupModel>(songGroupModels.OrderBy(m => m.Name));
+        }
+
+        public SongGroupModel AddNewSongs(DirectoryInfo stepmaniaRoot, IEnumerable<FileInfo> newSongs, string newPackName, IProgress<string> progress)
+        {
+            //TODO: Progress Reports
+            progress.Report("Test");
+            var newPackPath = new DirectoryInfo(Path.Combine(stepmaniaRoot.FullName, @"Songs", newPackName));
+
+            if (newPackPath.Exists == false)
+            {
+                newPackPath.Create();
+            }
+            else
+            {
+                throw new DuplicateSongPackException();
+            }
+            
+            var smFiles = newSongs.Where(f => f.Exists).Select(f => new SmFile(f)).ToList();
+
+            foreach (var smFile in smFiles)
+            {
+                using (var chartData = smFile.ExtractChartData())
+                {
+                    if (chartData.GetSteps(PlayStyle.Lights, SongDifficulty.Easy) == null)
+                    {
+                        var referenceChart = chartData.GetSteps(PlayStyle.Single, SongDifficulty.Hard)
+                                             ?? chartData.GetSteps(PlayStyle.Single, SongDifficulty.Challenge)
+                                             ?? chartData.GetSteps(PlayStyle.Single, chartData.GetHighestChartedDifficulty(PlayStyle.Single))
+                                             ?? chartData.GetSteps(PlayStyle.Double, SongDifficulty.Hard)
+                                             ?? chartData.GetSteps(PlayStyle.Double, SongDifficulty.Challenge)
+                                             ?? chartData.GetSteps(PlayStyle.Double, chartData.GetHighestChartedDifficulty(PlayStyle.Double));
+
+                        var lightsChart = StepChartBuilder.GenerateLightsChart(referenceChart);
+
+                        chartData.AddNewStepchart(lightsChart);
+                    }
+                }
+
+                var relatedStepFiles = Directory.EnumerateFiles(smFile.Directory).Select(f => new FileInfo(f));
+                var songPath = Path.Combine(newPackPath.FullName, smFile.SongName);
+
+                Directory.CreateDirectory(songPath);
+
+                foreach (var file in relatedStepFiles)
+                {
+                    file.CopyTo(Path.Combine(songPath, file.Name));
+                }
+            }
+
+            //TODO: The SongDataModel should hold the smFile from the new path, not the old path.
+            //return the group model instead so this can be called from a separate thread.
+            return new SongGroupModel(newPackName, smFiles.Select(sm => new SongDataModel(sm)));
         }
     }
 }

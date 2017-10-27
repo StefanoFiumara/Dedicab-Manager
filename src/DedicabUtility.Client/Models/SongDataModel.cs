@@ -51,7 +51,16 @@ namespace DedicabUtility.Client.Models
             if (!File.Exists(filePath))
                 filePath = SongDataModel.DEFAULT_BANNER_PATH;
 
-            return new BitmapImage(new Uri(filePath));
+            try
+            {
+                var uriSource = new Uri(filePath);
+                return new BitmapImage(uriSource);
+            }
+            catch (Exception)
+            {
+                return new BitmapImage();
+            }
+            
         }
 
 

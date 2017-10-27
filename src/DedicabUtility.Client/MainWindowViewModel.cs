@@ -68,7 +68,7 @@ namespace DedicabUtility.Client
 
             this.InitializeCommands();
 
-            this.EventAggregator.Subscribe<ShowPopupEvent, ShowPopupEventArgs>(e =>
+            this.EventAggregator.Subscribe<PopupEvent, PopupEventArgs>(e =>
             {
                 this.Model.ErrorPopupModel.Title = e.Title;
                 this.Model.ErrorPopupModel.Message = e.Message;
@@ -181,8 +181,8 @@ namespace DedicabUtility.Client
 
         private void ShowPopup(string title, string message, MessageIcon icon = MessageIcon.Success)
         {
-            var popupEventArgs = new ShowPopupEventArgs(title, message, icon);
-            this.EventAggregator.Publish<ShowPopupEvent, ShowPopupEventArgs>(popupEventArgs);
+            var popupEventArgs = new PopupEventArgs(title, message, icon);
+            this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(popupEventArgs);
         }
     }
 }

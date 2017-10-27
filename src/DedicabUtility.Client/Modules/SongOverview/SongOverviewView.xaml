@@ -21,7 +21,15 @@
             <StackPanel Orientation="Vertical">
                 <DockPanel>
                     <TextBlock Text="Song Groups" Style="{StaticResource LabelStyle}" VerticalAlignment="Center"/>
-                    <Button HorizontalAlignment="Right" Style="{StaticResource ButtonStyle}" Content="Add Songs" Command="{Binding AddSongsCommand}"/>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button HorizontalAlignment="Right" Style="{StaticResource ButtonStyle}" Content="Add Song Pack" Command="{Binding AddSongsCommand}"/>
+                        <Button HorizontalAlignment="Right" Style="{StaticResource NegativeButtonStyle}" 
+                                Content="Remove Song Pack"
+                                Command="{Binding RemoveSongPackCommand}"
+                                CommandParameter="{Binding Model.SelectedSongGroup}"/>
+                    </StackPanel>
+                    
+                    
                 </DockPanel>
                 <ListBox Margin="5" Height="450" 
                          ItemsSource="{Binding DataProvider.SongGroups}"
@@ -33,10 +41,6 @@
             <StackPanel Orientation="Vertical">
                 <DockPanel>
                     <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" />
-                    <Button HorizontalAlignment="Right" Style="{StaticResource NegativeButtonStyle}" 
-                            Content="Remove Song"
-                            Command="{Binding RemoveSongCommand}"
-                            CommandParameter="{Binding Model.SelectedSong}"/>
                 </DockPanel>
                 
                 <ListBox Margin="5" Height="450" 

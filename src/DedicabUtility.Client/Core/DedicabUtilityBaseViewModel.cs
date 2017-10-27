@@ -12,7 +12,5 @@ namespace DedicabUtility.Client.Core
         {
             this.DataProvider = dataProvider;
         }
-
-        
     }
 }
