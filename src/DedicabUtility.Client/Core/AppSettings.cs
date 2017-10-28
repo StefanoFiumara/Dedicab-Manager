@@ -8,14 +8,14 @@ namespace DedicabUtility.Client.Core
 
         public static string Get(Setting setting)
         {
-            return AppSettings._config.AppSettings.Settings[setting.ToString()]?.Value;
+            return _config.AppSettings.Settings[setting.ToString()]?.Value;
         }
 
         public static void Set(Setting setting, string value)
         {
-            AppSettings._config.AppSettings.Settings.Remove(setting.ToString());
-            AppSettings._config.AppSettings.Settings.Add(setting.ToString(), value);
-            AppSettings._config.Save();
+            _config.AppSettings.Settings.Remove(setting.ToString());
+            _config.AppSettings.Settings.Add(setting.ToString(), value);
+            _config.Save();
         }
     }
 }

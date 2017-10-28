@@ -11,7 +11,6 @@ using DedicabUtility.Client.Services;
 using FanoMvvm.Commands;
 using FanoMvvm.Events;
 using Ookii.Dialogs.Wpf;
-using StepmaniaUtils.Core;
 
 namespace DedicabUtility.Client.Modules.SongOverview
 {
@@ -40,20 +39,8 @@ namespace DedicabUtility.Client.Modules.SongOverview
         private void Initialize()
         {
             this.Model = new SongOverviewModel();
-
-            this.EventAggregator.Subscribe<SongOverviewNavigationEvent>(OnSongOverviewNavigation);
-
             this.AddSongsCommand = new RelayCommand(this.OnAddSongs);
-
             this.RemoveSongPackCommand = new RelayCommand<SongGroupModel>(this.OnRemoveSongPack, s => s != null);
-        }
-
-        private void OnRemoveSongPack(SongGroupModel song)
-        {
-            //TODO: Remove the song pack from the model, move the actual pack folder to a deleted files cache in case it needs to be restored
-
-            this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not Implemented", "You can't delete song packs yet!", MessageIcon.Error));
-
         }
 
         private async void OnAddSongs()
@@ -71,7 +58,11 @@ namespace DedicabUtility.Client.Modules.SongOverview
             {
                 this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not A Song Group?", "There were no subfolders found in the selected folder.\nAre you sure you selected a song group?", MessageIcon.Error));
             }
-            else if (smFiles.Any())
+            else if (!smFiles.Any())
+            {
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("No Songs Found", "There were no songs found in the selected folder.", MessageIcon.Error));
+            }
+            else
             {
                 this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
 
@@ -85,7 +76,7 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
                 try
                 {
-                    var newGroup = await Task.Run(() => this.DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName,progress));
+                    var newGroup = await Task.Run(() => this.DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName, progress));
 
                     this.DataModel.SongGroups.Add(newGroup);
                 }
@@ -95,17 +86,13 @@ namespace DedicabUtility.Client.Modules.SongOverview
                 }
                 this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
             }
-            else
-            {
-                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("No Songs Found", "There were no songs found in the selected folder.", MessageIcon.Error));
-            }
         }
 
-        private void OnSongOverviewNavigation()
+        private void OnRemoveSongPack(SongGroupModel song)
         {
-            
-        }
+            //TODO: Remove the song pack from the model, move the actual pack folder to a deleted files cache in case it needs to be restored
+            this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not Implemented", "You can't delete song packs yet!", MessageIcon.Error));
 
-        
+        }
     }
 }
