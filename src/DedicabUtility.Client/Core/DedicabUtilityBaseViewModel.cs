@@ -6,11 +6,23 @@ namespace DedicabUtility.Client.Core
 {
     public class DedicabUtilityBaseViewModel : BaseViewModel
     {
-        public DedicabDataProvider DataProvider { get; }
+        private DedicabDataModel _dataModel;
+        public DedicabDataService DataService { get; }
 
-        public DedicabUtilityBaseViewModel(IEventAggregator eventAggregator, DedicabDataProvider dataProvider) : base(eventAggregator)
+        public DedicabDataModel DataModel
         {
-            this.DataProvider = dataProvider;
+            get { return this._dataModel; }
+            set
+            {
+                this._dataModel = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public DedicabUtilityBaseViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) : base(eventAggregator)
+        {
+            this.DataService = dataService;
+            this.DataModel = dataModel;
         }
     }
 }

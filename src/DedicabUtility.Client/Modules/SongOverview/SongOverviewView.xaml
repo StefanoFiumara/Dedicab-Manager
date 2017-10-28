@@ -32,7 +32,7 @@
                     
                 </DockPanel>
                 <ListBox Margin="5" Height="450" 
-                         ItemsSource="{Binding DataProvider.SongGroups}"
+                         ItemsSource="{Binding DataModel.SongGroups}"
                          SelectedItem="{Binding Model.SelectedSongGroup}" />
             </StackPanel>
         </Border>

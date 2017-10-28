@@ -31,8 +31,8 @@ namespace DedicabUtility.Client.Modules.SongOverview
         public ICommand AddSongsCommand { get; set; }
         public ICommand RemoveSongPackCommand { get; set; }
 
-        public SongOverviewViewModel(IEventAggregator eventAggregator, DedicabDataProvider dataProvider) 
-            : base(eventAggregator, dataProvider)
+        public SongOverviewViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, dataService, dataModel)
         {
             this.Initialize();
         }
@@ -77,13 +77,17 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
                 string newPackName = selectedDirectory.Name;
                 var stepmaniaDirLocation = new DirectoryInfo(AppSettings.Get(Setting.StepmaniaInstallLocation));
-                var progress = new Progress<string>(i => this.BusyText = $"Loading Songs... \n{i}");
+                var progress = new Progress<string>(i =>
+                {
+
+                    this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, $"Loading Songs...\n{i}"));
+                });
 
                 try
                 {
-                    var newGroup = await Task.Run(() => this.DataProvider.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName,progress));
+                    var newGroup = await Task.Run(() => this.DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName,progress));
 
-                    this.DataProvider.SongGroups.Add(newGroup);
+                    this.DataModel.SongGroups.Add(newGroup);
                 }
                 catch (DuplicateSongPackException)
                 {

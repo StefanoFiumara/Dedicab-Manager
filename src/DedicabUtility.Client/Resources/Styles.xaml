@@ -8,6 +8,7 @@
         <Setter Property="Height" Value="25" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="TextElement.Foreground" Value="WhiteSmoke" />
+        <Setter Property="TextElement.FontWeight" Value="Bold" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -36,16 +37,16 @@
     </Style>
     
     <Style x:Key="NegativeButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
-        <Setter Property="Background" Value="#D40D12"/>
+        <Setter Property="Background" Value="{StaticResource NegativeColor1}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#94090D"/>
+                <Setter Property="Background" Value="{StaticResource NegativeColor2}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#450003" />
+                <Setter Property="Background" Value="{StaticResource NegativeColor3}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="#611B24" />
+                <Setter Property="Background" Value="{StaticResource NegativeColor4}" />
                 <Setter Property="Image.Opacity" Value="0.7" />
             </Trigger>
         </Style.Triggers>
@@ -69,11 +70,6 @@
     
     <Style x:Key="LabelStyle" BasedOn="{StaticResource TextStyle}" TargetType="{x:Type TextBlock}">
         <Setter Property="FontWeight" Value="Bold" />
-    </Style>
-    
-    <Style TargetType="{x:Type controls:BusyIndicator}">
-        <Setter Property="WheelColor" Value="Cyan"/>
-        <Setter Property="BusyText" Value="Loading..." />
     </Style>
     
     <!-- TODO: ListBoxItemContainer Style -->

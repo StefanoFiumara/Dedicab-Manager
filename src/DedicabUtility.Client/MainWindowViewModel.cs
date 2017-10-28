@@ -56,8 +56,8 @@ namespace DedicabUtility.Client
             }
         }
 
-        public MainWindowViewModel(IEventAggregator eventAggregator, DedicabDataProvider dataProvider) 
-            : base(eventAggregator, dataProvider)
+        public MainWindowViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, dataService, dataModel)
         {
             this.Initialize();
         }
@@ -83,8 +83,8 @@ namespace DedicabUtility.Client
             });
 
             this.EventAggregator.Subscribe<UpdateSongDataEvent>(this.OnUpdateSongData);
-            this.SongOverview = new SongOverviewViewModel(this.EventAggregator, this.DataProvider);
-            this.TournamentSet = new TournamentSetViewModel(this.EventAggregator, this.DataProvider);
+            this.SongOverview = new SongOverviewViewModel(this.EventAggregator, this.DataService, this.DataModel);
+            this.TournamentSet = new TournamentSetViewModel(this.EventAggregator, this.DataService, this.DataModel);
 
             this.VerifyStepmaniaInstallLocation();
         }
@@ -135,10 +135,10 @@ namespace DedicabUtility.Client
 
             var progress = new Progress<string>(i => this.BusyText = $"Loading Songs... \n{i}");
 
-             var songGroups = await Task.Run(() => this.DataProvider.GetUpdatedSongData(stepmaniaDirLocation, progress));
+             var songGroups = await Task.Run(() => this.DataService.GetUpdatedSongData(stepmaniaDirLocation, progress));
 
             //have to use dumb copy constructor since we can't bind to objects created in separate thread.
-            this.DataProvider.SongGroups = new ObservableCollection<SongGroupModel>(songGroups.Select(g => new SongGroupModel(g)));
+            this.DataModel.SongGroups = new ObservableCollection<SongGroupModel>(songGroups.Select(g => new SongGroupModel(g)));
 
             this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
         }

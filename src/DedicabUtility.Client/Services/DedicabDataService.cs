@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using DedicabUtility.Client.Annotations;
 using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using StepmaniaUtils.Core;
@@ -13,34 +9,8 @@ using StepmaniaUtils.Enums;
 
 namespace DedicabUtility.Client.Services
 {
-    public sealed class DedicabDataProvider : INotifyPropertyChanged
+    public sealed class DedicabDataService
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        //TODO: We need to reconsider where we put this model, this is a service.
-        private ObservableCollection<SongGroupModel> _songGroups;
-        public ObservableCollection<SongGroupModel> SongGroups
-        {
-            get => this._songGroups;
-            set
-            {
-                if (Equals(value, this._songGroups)) return;
-                this._songGroups = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public DedicabDataProvider()
-        {
-            this.SongGroups = new ObservableCollection<SongGroupModel>();
-        }
-
         public List<SongGroupModel> GetUpdatedSongData(DirectoryInfo stepmaniaRoot, IProgress<string> progress)
         {
             var songsPath = Path.Combine(stepmaniaRoot.FullName, @"Songs");
@@ -104,8 +74,7 @@ namespace DedicabUtility.Client.Services
 
         public SongGroupModel AddNewSongs(DirectoryInfo stepmaniaRoot, IEnumerable<FileInfo> newSongs, string newPackName, IProgress<string> progress)
         {
-            //TODO: Progress Reports
-            progress.Report("Test");
+            progress.Report("Creating Directory...");
             var newPackPath = new DirectoryInfo(Path.Combine(stepmaniaRoot.FullName, @"Songs", newPackName));
 
             if (newPackPath.Exists == false)
@@ -118,6 +87,12 @@ namespace DedicabUtility.Client.Services
             }
             
             var smFiles = newSongs.Where(f => f.Exists).Select(f => new SmFile(f)).ToList();
+
+            progress.Report("Copying to Stepmania Installation...");
+
+            int totalFiles = smFiles.Count;
+            int processedFiles = 0;
+            int progressPercent = 0;
 
             foreach (var smFile in smFiles)
             {
@@ -137,21 +112,38 @@ namespace DedicabUtility.Client.Services
                         chartData.AddNewStepchart(lightsChart);
                     }
                 }
-
+                
                 var relatedStepFiles = Directory.EnumerateFiles(smFile.Directory).Select(f => new FileInfo(f));
-                var songPath = Path.Combine(newPackPath.FullName, smFile.SongName);
+
+                //Strip out invalid file name chars
+                string songName = Path.GetInvalidFileNameChars()
+                    .Aggregate(smFile.SongName, (current, c) => current.Replace(c.ToString(), ""));
+
+                var songPath = Path.Combine(newPackPath.FullName, songName);
 
                 Directory.CreateDirectory(songPath);
 
                 foreach (var file in relatedStepFiles)
                 {
-                    file.CopyTo(Path.Combine(songPath, file.Name));
+                    file.CopyTo(Path.Combine(songPath, file.Name), overwrite: true);
+                }
+
+                processedFiles++;
+
+                float percent = ((float)processedFiles / totalFiles) * 100f;
+                if ((int)percent != progressPercent)
+                {
+                    progressPercent = (int)percent;
+                    progress.Report($"Copying to Stepmania Installation... {progressPercent}%");
                 }
             }
 
-            //TODO: The SongDataModel should hold the smFile from the new path, not the old path.
+            //Reassign SmFiles to the newly copied location.
+            progress.Report("Reading new metadata...");
+            smFiles = Directory.EnumerateFiles(newPackPath.FullName, "*.sm", SearchOption.AllDirectories).Select(s => new SmFile(new FileInfo(s))).ToList();
+            
             //return the group model instead so this can be called from a separate thread.
-            return new SongGroupModel(newPackName, smFiles.Select(sm => new SongDataModel(sm)));
+            return new SongGroupModel(newPackName, smFiles.Select(sm => new SongDataModel(sm)).OrderBy(sm => sm.SongName));
         }
     }
 }

@@ -7,8 +7,8 @@ namespace DedicabUtility.Client.Modules.TournamentSet
 {
     public class TournamentSetViewModel : DedicabUtilityBaseViewModel
     {
-        public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataProvider dataProvider) 
-            : base(eventAggregator, dataProvider)
+        public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, dataService, dataModel)
         {
             this.Initialize();
         }

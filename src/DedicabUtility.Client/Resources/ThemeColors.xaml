@@ -7,5 +7,10 @@
     <SolidColorBrush x:Key="ThemeColor2" Color="#3B59F9" />
     <SolidColorBrush x:Key="ThemeColor3" Color="#142CB0" />
     <SolidColorBrush x:Key="ThemeColor4" Color="#305085" />
-    <!-- TODO: Cancel/Delete Button Color -->
+
+    <SolidColorBrush x:Key="NegativeColor1" Color="#D40D12" />
+    <SolidColorBrush x:Key="NegativeColor2" Color="#94090D" />
+    <SolidColorBrush x:Key="NegativeColor3" Color="#450003" />
+    <SolidColorBrush x:Key="NegativeColor4" Color="#611B24" />
+
 </ResourceDictionary>

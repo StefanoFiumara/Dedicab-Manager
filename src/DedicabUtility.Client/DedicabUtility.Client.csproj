@@ -75,6 +75,7 @@
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DifficultyValueConverter.cs" />
+    <Compile Include="Core\DedicabDataModel.cs" />
     <Compile Include="Core\Enums.cs" />
     <Compile Include="Exceptions\DuplicateSongPackException.cs" />
     <Compile Include="MainWindowModel.cs" />
@@ -83,7 +84,7 @@
       <DependentUpon>ErrorPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\Events.cs" />
-    <Compile Include="Services\DedicabDataProvider.cs" />
+    <Compile Include="Services\DedicabDataService.cs" />
     <Page Include="Controls\BusyIndicator.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
