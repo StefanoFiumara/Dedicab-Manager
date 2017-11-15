@@ -270,6 +270,72 @@
     <None Include="TestData\NewSongs\Your Own Miracle\Your Own Miracle.sm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="TestData\SSC\#SELFIE\#SELFIE.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\#SELFIE\#SELFIE.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%2811%29 Way of the Wind\steps.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%2811%29 Way of the Wind\steps.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%2812%29 Megaburn\megaburn.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%2812%29 Megaburn\megaburn.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%289%29 Egg Dealer\Egg Dealer.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\%289%29 Egg Dealer\Egg Dealer.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Can%27t Control Myself\cantcontrolmyself.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Can%27t Control Myself\cantcontrolmyself.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Candyland %28Pa%27s Lam System Remix%29\Candyland.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Candyland %28Pa%27s Lam System Remix%29\Candyland.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Chicken Head\Chicken Head.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Chicken Head\Chicken Head.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Girls Like To Swing\girls.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Girls Like To Swing\girls.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Hello\Hello.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Hello\Hello.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Propaganda %28Habstrakt Remix%29\Propaganda %28Habstrakt Remix%29.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Propaganda %28Habstrakt Remix%29\Propaganda %28Habstrakt Remix%29.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Wandering\wandering.sm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\SSC\Wandering\wandering.ssc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DedicabUtility.Client\DedicabUtility.Client.csproj">

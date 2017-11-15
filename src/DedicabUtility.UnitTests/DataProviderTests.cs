@@ -30,10 +30,10 @@ namespace DedicabUtility.UnitTests
         }
 
         [TestMethod]
-        [DeploymentItem(@"TestData\ITG", @"Songs\ITG")]
-        public void GetSongDataTest()
+        [DeploymentItem(@"TestData\ITG", @"VerifySongDataIsLoaded\Songs\ITG")]
+        public void VerifySongDataIsLoaded()
         {
-            var stepmaniaRoot = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var stepmaniaRoot = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "VerifySongDataIsLoaded"));
             var groups = this.DataService.GetUpdatedSongData(stepmaniaRoot, new Progress<string>(s => { }));
 
             Assert.AreEqual(1, groups.Count);
@@ -41,13 +41,14 @@ namespace DedicabUtility.UnitTests
         }
 
         [TestMethod]
-        [DeploymentItem(@"TestData\ITG", @"Songs\ITG")]
-        [DeploymentItem(@"TestData\NewSongs", @"NewSongs\NewPack")]
-        public void AddSongDataTest()
+        [DeploymentItem(@"TestData\ITG",      @"VerifyNewSongDataIsAdded\Songs\ITG")]
+        [DeploymentItem(@"TestData\NewSongs", @"VerifyNewSongDataIsAdded\NewSongs\NewPack")]
+        public void VerifyNewSongDataIsAdded()
         {
-            var newSongs = Directory.EnumerateFiles(@"NewSongs\NewPack", "*.sm", SearchOption.AllDirectories).Select(s => new FileInfo(s));
-            var stepmaniaRoot = new DirectoryInfo(Directory.GetCurrentDirectory());
-            
+            var stepmaniaRoot = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "VerifyNewSongDataIsAdded"));
+            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot.FullName, "NewSongs","NewPack"), "*.sm", SearchOption.AllDirectories)
+                                    .Select(s => new FileInfo(s));
+
             var newSongGroup = this.DataService.AddNewSongs(stepmaniaRoot, newSongs, @"NewPack", new Progress<string>(s => { }));
             Assert.AreEqual(4, newSongGroup.Songs.Count());
             Assert.AreEqual("NewPack", newSongGroup.Name);
@@ -59,18 +60,35 @@ namespace DedicabUtility.UnitTests
             Assert.AreEqual(72, allGroups.SelectMany(g => g.Songs).Count());
 
         }
-
-
+        
         [TestMethod]
-        [DeploymentItem(@"TestData\ITG", @"Songs\ITG")]
-        [DeploymentItem(@"TestData\NewSongs", @"NewSongs\NewPack")]
+        [DeploymentItem(@"TestData\ITG",      @"VerifyAddingSongDataWithExistingPackNameThrowsException\Songs\ITG")]
+        [DeploymentItem(@"TestData\NewSongs", @"VerifyAddingSongDataWithExistingPackNameThrowsException\NewSongs\NewPack")]
         [ExpectedException(typeof(DuplicateSongPackException))]
-        public void AddSongDataWithExistingPackNameTest()
+        public void VerifyAddingSongDataWithExistingPackNameThrowsException()
         {
-            var newSongs = Directory.EnumerateFiles(@"NewSongs\NewPack", "*.sm", SearchOption.AllDirectories).Select(s => new FileInfo(s));
-            var stepmaniaRoot = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var stepmaniaRoot = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "VerifyAddingSongDataWithExistingPackNameThrowsException"));
+            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot.FullName, "NewSongs", "NewPack"), "*.sm", SearchOption.AllDirectories).Select(s => new FileInfo(s));
 
             this.DataService.AddNewSongs(stepmaniaRoot, newSongs, @"ITG", new Progress<string>(s => { }));
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"TestData\ITG", @"VerifyAddSongDataDoesNotCopySscFile\Songs\ITG")]
+        [DeploymentItem(@"TestData\SSC", @"VerifyAddSongDataDoesNotCopySscFile\NewSongs\NewPack")]
+        public void VerifyAddSongDataDoesNotCopySscFile()
+        {
+            var stepmaniaRoot = new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "VerifyAddSongDataDoesNotCopySscFile"));
+
+            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot.FullName, "NewSongs", "NewPack"), "*.sm", SearchOption.AllDirectories)
+                                    .Select(s => new FileInfo(s));
+            
+
+            this.DataService.AddNewSongs(stepmaniaRoot, newSongs, @"SSC", new Progress<string>(s => { }));
+
+            var sscFiles = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot.FullName, @"Songs", @"SSC"));
+
+            Assert.IsFalse(sscFiles.Any());
         }
     }
 }
