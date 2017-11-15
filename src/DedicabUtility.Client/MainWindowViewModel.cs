@@ -120,6 +120,11 @@ namespace DedicabUtility.Client
                 this.ShowPopup("Stepmania Install Location is not set!",
                     "You must select the location of your Stepmania installation before using the program.", MessageIcon.Warning);
             }
+            else if (Directory.Exists(installLocation) == false)
+            {
+                this.ShowPopup("Stepmania Install Location could not be found!",
+                    "You must select the location of your Stepmania installation before using the program.", MessageIcon.Warning);
+            }
             else
             {
                 this.Model.StepmaniaInstallLocation = installLocation;
