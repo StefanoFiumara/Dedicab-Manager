@@ -56,11 +56,11 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
             if (selectedDirectory.EnumerateDirectories().Any() == false)
             {
-                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not A Song Group?", "There were no subfolders found in the selected folder.\nAre you sure you selected a song group?", MessageIcon.Error));
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not A Song Group?", "There were no subfolders found in the selected folder.\nAre you sure you selected a song group?", MessageIcon.Warning));
             }
             else if (!smFiles.Any())
             {
-                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("No Songs Found", "There were no songs found in the selected folder.", MessageIcon.Error));
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("No Songs Found", "There were no songs found in the selected folder.", MessageIcon.Warning));
             }
             else
             {
@@ -68,31 +68,47 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
                 string newPackName = selectedDirectory.Name;
                 var stepmaniaDirLocation = new DirectoryInfo(AppSettings.Get(Setting.StepmaniaInstallLocation));
-                var progress = new Progress<string>(i =>
-                {
-
-                    this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, $"Loading Songs...\n{i}"));
-                });
+               
 
                 try
                 {
-                    var newGroup = await Task.Run(() => this.DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName, progress));
+                    var newGroup = await Task.Run(() => this.DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName, this.ProgressNotifier));
 
                     this.DataModel.SongGroups.Add(newGroup);
                 }
                 catch (DuplicateSongPackException)
                 {
-                    this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Duplicate Pack", "The song pack you selected is already on the machine!", MessageIcon.Error));
+                    this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Duplicate Pack", "The song pack you selected is already on the machine!", MessageIcon.Warning));
                 }
                 this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
             }
         }
 
-        private void OnRemoveSongPack(SongGroupModel song)
+        private async void OnRemoveSongPack(SongGroupModel songPack)
         {
-            //TODO: Remove the song pack from the model, move the actual pack folder to a deleted files cache in case it needs to be restored
-            this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not Implemented", "You can't delete song packs yet!", MessageIcon.Error));
+            //TODO: Are you sure?
+            var stepmaniaDirLocation = new DirectoryInfo(AppSettings.Get(Setting.StepmaniaInstallLocation));
+           
+            
+            try
+            {
+                this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Removing Songs..."));
 
+                await Task.Run(() => this.DataService.RemoveSongPack(stepmaniaDirLocation, songPack.Name, this.ProgressNotifier));
+
+                this.DataModel.SongGroups.Remove(songPack);
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Song Pack Removed", $"The song pack {songPack.Name} is no longer on the machine."));
+            }
+            catch (SongPackNotFoundException)
+            {
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Could Not Find Song Pack", $"Couldn't find a song pack named {songPack.Name}", MessageIcon.Warning));
+            }
+            catch (Exception e)
+            {
+                this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Error", $"An unexpected error occured!\n{e.Message}\n{e.StackTrace}", MessageIcon.Error));
+            }
+
+            this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
         }
     }
 }

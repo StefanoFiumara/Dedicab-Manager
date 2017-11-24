@@ -15,16 +15,25 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="1" Margin="5,10" Style="{StaticResource PanelBorderStyle}">
-                <DockPanel LastChildFill="False">
-                    <Image Source="{Binding Model.ErrorPopupModel.MessageIcon, Converter={StaticResource MessageIconToImageConverter}}" Width="48" Height="48" HorizontalAlignment="Left" Margin="5" DockPanel.Dock="Top" />
-                    <TextBlock Style="{StaticResource LabelStyle}" DockPanel.Dock="Top"
-                               FontSize="24" Text="{Binding Model.ErrorPopupModel.Title}" />
-                    <TextBlock Style="{StaticResource TextStyle}" DockPanel.Dock="Top"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Model.ErrorPopupModel.MessageIcon, Converter={StaticResource MessageIconToImageConverter}}" Width="48" Height="48" VerticalAlignment="Center" Margin="5" />
+                        <TextBlock Style="{StaticResource LabelStyle}" DockPanel.Dock="Top" VerticalAlignment="Center"
+                                   FontSize="24" Text="{Binding Model.ErrorPopupModel.Title}" />
+                    </StackPanel>
+                    
+                    <TextBlock Grid.Row="1" Style="{StaticResource TextStyle}" DockPanel.Dock="Top" MaxHeight="300"
                                Text="{Binding Model.ErrorPopupModel.Message}" />
-                    <Button Style="{StaticResource ButtonStyle}" DockPanel.Dock="Bottom"
+                    <Button Grid.Row="2" Style="{StaticResource ButtonStyle}"
                             Content="Close" HorizontalAlignment="Right"
                             Command="{Binding ClosePopupCommand}"/> 
-                </DockPanel>
+                </Grid>
             </Border>
         </Grid>
     </Border>

@@ -137,10 +137,8 @@ namespace DedicabUtility.Client
             this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
 
             var stepmaniaDirLocation = new DirectoryInfo(AppSettings.Get(Setting.StepmaniaInstallLocation));
-
-            var progress = new Progress<string>(i => this.BusyText = $"Loading Songs... \n{i}");
-
-             var songGroups = await Task.Run(() => this.DataService.GetUpdatedSongData(stepmaniaDirLocation, progress));
+            
+             var songGroups = await Task.Run(() => this.DataService.GetUpdatedSongData(stepmaniaDirLocation, this.ProgressNotifier));
 
             //have to use dumb copy constructor since we can't bind to objects created in separate thread.
             this.DataModel.SongGroups = new ObservableCollection<SongGroupModel>(songGroups.Select(g => new SongGroupModel(g)));

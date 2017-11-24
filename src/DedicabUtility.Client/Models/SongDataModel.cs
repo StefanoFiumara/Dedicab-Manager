@@ -48,22 +48,33 @@ namespace DedicabUtility.Client.Models
         {
             var filePath = Path.Combine(this._smFile.Directory, this._smFile.BannerPath);
 
-            if (!File.Exists(filePath))
-                filePath = SongDataModel.DEFAULT_BANNER_PATH;
+            BitmapImage image = new BitmapImage();
+            if (File.Exists(filePath))
+            {
+                using (FileStream stream = File.OpenRead(filePath))
+                {
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = stream;
+                    image.EndInit();
+                }
+            }
+            else
+            {
+                try
+                {
+                    var uriSource = new Uri(SongDataModel.DEFAULT_BANNER_PATH);
+                    return new BitmapImage(uriSource);
+                }
+                catch (Exception e)
+                {
+                    return image;
+                }
+            }
 
-            try
-            {
-                var uriSource = new Uri(filePath);
-                return new BitmapImage(uriSource);
-            }
-            catch (Exception)
-            {
-                return new BitmapImage();
-            }
-            
+            return image;
         }
-
-
+        
         private void ExtractDifficultyRatings(ChartData data)
         {
             this.DifficultySingles = new Dictionary<SongDifficulty, int>

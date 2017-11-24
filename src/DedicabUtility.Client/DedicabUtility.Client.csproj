@@ -78,6 +78,7 @@
     <Compile Include="Core\DedicabDataModel.cs" />
     <Compile Include="Core\Enums.cs" />
     <Compile Include="Exceptions\DuplicateSongPackException.cs" />
+    <Compile Include="Exceptions\SongPackNotFoundException.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Core\DedicabUtilityBaseViewModel.cs" />
     <Compile Include="Modules\ErrorPopup\ErrorPopup.xaml.cs">
