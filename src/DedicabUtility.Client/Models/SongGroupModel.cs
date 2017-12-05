@@ -7,14 +7,16 @@ namespace DedicabUtility.Client.Models
     public class SongGroupModel : IEquatable<SongGroupModel>
     {
         public Guid GroupId { get; }
-
         public string Name { get; }
-        public IEnumerable<SongDataModel> Songs { get; }
+
+        public List<SongDataModel> Songs => LazySongList.Value;
+
+        private Lazy<List<SongDataModel>> LazySongList { get; }
 
         public SongGroupModel(string name, IEnumerable<SongDataModel> songs)
         {
             Name = name;
-            Songs = songs;
+            LazySongList = new Lazy<List<SongDataModel>>(songs.ToList);
             GroupId = Guid.NewGuid();
         }
         
