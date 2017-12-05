@@ -10,43 +10,39 @@ namespace DedicabUtility.Client.Models
 {
     public class SongDataModel
     { 
-        private const string DEFAULT_BANNER_PATH = @"pack://application:,,,/DedicabUtility.Client;component/Images/defaultbanner.png";
+        private const string DefaultBannerPath = @"pack://application:,,,/DedicabUtility.Client;component/Images/defaultbanner.png";
         private readonly SmFile _smFile;
 
-        public string SongName => this._smFile.SongName;
-        public string Group => this._smFile.Group;
+        public string SongName => _smFile.SongName;
+        public string Group => _smFile.Group;
         public BitmapImage SongBanner { get; set; }
 
         public Dictionary<SongDifficulty, int> DifficultySingles { get; set; }
         public Dictionary<SongDifficulty, int> DifficultyDoubles { get; set; }
 
-        public SongDataModel(SmFile smFile)
+        public SongDataModel(SmFile smFile, ChartData smFileMetadata = null)
         {
-            this._smFile = smFile;
+            _smFile = smFile;
 
-            this.SongBanner = this.ExtractBannerImage();
-            
+            SongBanner = ExtractBannerImage();
 
-            using (var data = this._smFile.ExtractChartData())
+            if (smFileMetadata != null)
             {
-                this.ExtractDifficultyRatings(data);
+                ExtractDifficultyRatings(smFileMetadata);
+                smFileMetadata.Dispose();
+            }
+            else
+            {
+                using (var data = _smFile.ExtractChartData(extractAllStepData: false))
+                {
+                    ExtractDifficultyRatings(data);
+                }
             }
         }
-
-        public SongDataModel(SongDataModel copy)
-        {
-            this._smFile = copy._smFile;
-
-            this.SongBanner = this.ExtractBannerImage();
-
-            this.DifficultySingles = copy.DifficultySingles;
-            this.DifficultyDoubles = copy.DifficultyDoubles;
-
-        }
-
+        
         private BitmapImage ExtractBannerImage()
         {
-            var filePath = Path.Combine(this._smFile.Directory, this._smFile.BannerPath);
+            var filePath = Path.Combine(_smFile.Directory, _smFile.BannerPath);
 
             BitmapImage image = new BitmapImage();
             if (File.Exists(filePath))
@@ -63,10 +59,10 @@ namespace DedicabUtility.Client.Models
             {
                 try
                 {
-                    var uriSource = new Uri(SongDataModel.DEFAULT_BANNER_PATH);
+                    var uriSource = new Uri(DefaultBannerPath);
                     return new BitmapImage(uriSource);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return image;
                 }
@@ -77,7 +73,7 @@ namespace DedicabUtility.Client.Models
         
         private void ExtractDifficultyRatings(ChartData data)
         {
-            this.DifficultySingles = new Dictionary<SongDifficulty, int>
+            DifficultySingles = new Dictionary<SongDifficulty, int>
             {
                 [SongDifficulty.Beginner] = data.GetSteps(PlayStyle.Single, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
                 [SongDifficulty.Easy] = data.GetSteps(PlayStyle.Single, SongDifficulty.Easy)?.DifficultyRating ?? -1,
@@ -87,7 +83,7 @@ namespace DedicabUtility.Client.Models
             };
 
 
-            this.DifficultyDoubles = new Dictionary<SongDifficulty, int>
+            DifficultyDoubles = new Dictionary<SongDifficulty, int>
             {
                 [SongDifficulty.Beginner] = data.GetSteps(PlayStyle.Double, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
                 [SongDifficulty.Easy] = data.GetSteps(PlayStyle.Double, SongDifficulty.Easy)?.DifficultyRating ?? -1,

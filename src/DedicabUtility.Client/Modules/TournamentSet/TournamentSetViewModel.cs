@@ -10,11 +10,11 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, dataService, dataModel)
         {
-            this.Initialize();
+            Initialize();
         }
         private void Initialize()
         {
-            this.EventAggregator.Subscribe<TournamentManagerNavigationEvent>(this.OnTournamentSetNavigation);
+            EventAggregator.Subscribe<TournamentManagerNavigationEvent>(OnTournamentSetNavigation);
             
         }
 

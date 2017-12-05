@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -31,13 +32,13 @@ namespace DedicabUtility.Client
         private BaseViewModel _selectedViewModel;
         public BaseViewModel SelectedViewModel
         {
-            get => this._selectedViewModel;
+            get => _selectedViewModel;
             set
             {
-                if (this._selectedViewModel == value) return;
-                this._selectedViewModel = value;
-                this.Model.LogoVisibility = this._selectedViewModel == null ? Visibility.Visible : Visibility.Collapsed;
-                this.OnPropertyChanged();
+                if (_selectedViewModel == value) return;
+                _selectedViewModel = value;
+                Model.LogoVisibility = _selectedViewModel == null ? Visibility.Visible : Visibility.Collapsed;
+                OnPropertyChanged();
             }
         }
 
@@ -47,68 +48,68 @@ namespace DedicabUtility.Client
         private MainWindowModel _model;
         public MainWindowModel Model
         {
-            get => this._model;
+            get => _model;
             set
             {
-                if (this._model == value) return;
-                this._model = value;
-                this.OnPropertyChanged();
+                if (_model == value) return;
+                _model = value;
+                OnPropertyChanged();
             }
         }
 
         public MainWindowViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, dataService, dataModel)
         {
-            this.Initialize();
+            Initialize();
         }
 
         private void Initialize()
         {
-            this.Model = new MainWindowModel();
+            Model = new MainWindowModel();
 
-            this.InitializeCommands();
+            InitializeCommands();
 
-            this.EventAggregator.Subscribe<PopupEvent, PopupEventArgs>(e =>
+            EventAggregator.Subscribe<PopupEvent, PopupEventArgs>(e =>
             {
-                this.Model.ErrorPopupModel.Title = e.Title;
-                this.Model.ErrorPopupModel.Message = e.Message;
-                this.Model.ErrorPopupModel.MessageIcon = e.MessageIcon;
-                this.Model.ErrorPopupModel.Visibility = Visibility.Visible;
+                Model.ErrorPopupModel.Title = e.Title;
+                Model.ErrorPopupModel.Message = e.Message;
+                Model.ErrorPopupModel.MessageIcon = e.MessageIcon;
+                Model.ErrorPopupModel.Visibility = Visibility.Visible;
             });
 
-            this.EventAggregator.Subscribe<SetIsBusyEvent, IsBusyEventArgs>(args =>
+            EventAggregator.Subscribe<SetIsBusyEvent, IsBusyEventArgs>(args =>
             {
-                this.IsBusy = args.BusyState;
-                this.BusyText = args.BusyText;
+                IsBusy = args.BusyState;
+                BusyText = args.BusyText;
             });
 
-            this.EventAggregator.Subscribe<UpdateSongDataEvent>(this.OnUpdateSongData);
-            this.SongOverview = new SongOverviewViewModel(this.EventAggregator, this.DataService, this.DataModel);
-            this.TournamentSet = new TournamentSetViewModel(this.EventAggregator, this.DataService, this.DataModel);
+            EventAggregator.Subscribe<UpdateSongDataEvent>(OnUpdateSongData);
+            SongOverview = new SongOverviewViewModel(EventAggregator, DataService, DataModel);
+            TournamentSet = new TournamentSetViewModel(EventAggregator, DataService, DataModel);
 
-            this.VerifyStepmaniaInstallLocation();
+            VerifyStepmaniaInstallLocation();
         }
 
         private void InitializeCommands()
         {
-            this.SongOverviewNavigationCommand = new RelayCommand(() =>
+            SongOverviewNavigationCommand = new RelayCommand(() =>
                 {
-                    this.SelectedViewModel = this.SongOverview;
-                    this.EventAggregator.Publish<SongOverviewNavigationEvent>();
+                    SelectedViewModel = SongOverview;
+                    EventAggregator.Publish<SongOverviewNavigationEvent>();
                 },
-                () => string.IsNullOrEmpty(this.Model.StepmaniaInstallLocation) == false);
+                () => string.IsNullOrEmpty(Model.StepmaniaInstallLocation) == false);
 
-            this.TournamentManagementNavigationCommand = new RelayCommand(() =>
+            TournamentManagementNavigationCommand = new RelayCommand(() =>
                 {
-                    this.SelectedViewModel = this.TournamentSet;
-                    this.EventAggregator.Publish<TournamentManagerNavigationEvent>();
+                    SelectedViewModel = TournamentSet;
+                    EventAggregator.Publish<TournamentManagerNavigationEvent>();
                 },
-                () => string.IsNullOrEmpty(this.Model.StepmaniaInstallLocation) == false);
+                () => string.IsNullOrEmpty(Model.StepmaniaInstallLocation) == false);
 
-            this.ClosePopupCommand = new RelayCommand(() => this.Model.ErrorPopupModel.Visibility = Visibility.Hidden);
+            ClosePopupCommand = new RelayCommand(() => Model.ErrorPopupModel.Visibility = Visibility.Hidden);
 
-            this.OpenInstallLocationCommand = new RelayCommand(this.OpenInstallLocation);
-            this.BrowseForInstallLocationCommand = new RelayCommand(BrowseForInstallLocation);
+            OpenInstallLocationCommand = new RelayCommand(OpenInstallLocation);
+            BrowseForInstallLocationCommand = new RelayCommand(BrowseForInstallLocation);
         }
 
         private void VerifyStepmaniaInstallLocation()
@@ -117,33 +118,43 @@ namespace DedicabUtility.Client
 
             if (installLocation == null)
             {
-                this.ShowPopup("Stepmania Install Location is not set!",
+                ShowPopup("Stepmania Install Location is not set!",
                     "You must select the location of your Stepmania installation before using the program.", MessageIcon.Warning);
             }
             else if (Directory.Exists(installLocation) == false)
             {
-                this.ShowPopup("Stepmania Install Location could not be found!",
+                ShowPopup("Stepmania Install Location could not be found!",
                     "You must select the location of your Stepmania installation before using the program.", MessageIcon.Warning);
             }
             else
             {
-                this.Model.StepmaniaInstallLocation = installLocation;
-                this.EventAggregator.Publish<UpdateSongDataEvent>();
+                Model.StepmaniaInstallLocation = installLocation;
+                EventAggregator.Publish<UpdateSongDataEvent>();
             }
         }
 
         private async void OnUpdateSongData()
         {
-            this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
+            EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
 
-            var stepmaniaDirLocation = new DirectoryInfo(AppSettings.Get(Setting.StepmaniaInstallLocation));
+            var stepmaniaDirLocation = AppSettings.Get(Setting.StepmaniaInstallLocation);
             
-             var songGroups = await Task.Run(() => this.DataService.GetUpdatedSongData(stepmaniaDirLocation, this.ProgressNotifier));
+             var songGroups = await Task.Run(() => DataService.ScanSongData(stepmaniaDirLocation, ProgressNotifier));
+            
+            var groupModels = new List<SongGroupModel>();
 
-            //have to use dumb copy constructor since we can't bind to objects created in separate thread.
-            this.DataModel.SongGroups = new ObservableCollection<SongGroupModel>(songGroups.Select(g => new SongGroupModel(g)));
+            foreach (var songGroup in songGroups)
+            {
+                var songDataModels = songGroup.Select(g => new SongDataModel(g.SmFile, g.ChartData))
+                                              .OrderBy(sm => sm.SongName);
 
-            this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
+                var groupModel = new SongGroupModel(songGroup.Key, songDataModels);
+                groupModels.Add(groupModel);
+            }
+
+            DataModel.SongGroups = new ObservableCollection<SongGroupModel>(groupModels.OrderBy(g => g.Name) );
+
+            EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(false));
         }
 
         private void OpenInstallLocation()
@@ -152,12 +163,12 @@ namespace DedicabUtility.Client
             {
                 using (new MouseOverride(Cursors.Wait))
                 {
-                    Process.Start(this.Model.StepmaniaInstallLocation);
+                    Process.Start(Model.StepmaniaInstallLocation);
                 }
             }
             catch (Exception ex)
             {
-                this.ShowPopup("Could not open Stepmania install location", $"Error: {ex.Message}", MessageIcon.Error);
+                ShowPopup("Could not open Stepmania install location", $"Error: {ex.Message}", MessageIcon.Error);
             }
         }
 
@@ -172,20 +183,14 @@ namespace DedicabUtility.Client
 
             if (selectedDirectory.EnumerateDirectories("Songs").Any())
             {
-                this.Model.StepmaniaInstallLocation = selectedDirectory.FullName;
-                AppSettings.Set(Setting.StepmaniaInstallLocation, this.Model.StepmaniaInstallLocation);
-                this.EventAggregator.Publish<UpdateSongDataEvent>();
+                Model.StepmaniaInstallLocation = selectedDirectory.FullName;
+                AppSettings.Set(Setting.StepmaniaInstallLocation, Model.StepmaniaInstallLocation);
+                EventAggregator.Publish<UpdateSongDataEvent>();
             }
             else
             {
-                this.ShowPopup("Invalid Location", "The selected location is not a Stepmania directory", MessageIcon.Error);
+                ShowPopup("Invalid Location", "The selected location is not a Stepmania directory", MessageIcon.Error);
             }
-        }
-
-        private void ShowPopup(string title, string message, MessageIcon icon = MessageIcon.Success)
-        {
-            var popupEventArgs = new PopupEventArgs(title, message, icon);
-            this.EventAggregator.Publish<PopupEvent, PopupEventArgs>(popupEventArgs);
         }
     }
 }

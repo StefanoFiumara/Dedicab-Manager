@@ -5,25 +5,25 @@ using System.Windows.Media;
 
 namespace DedicabUtility.Client.Controls
 {
-    [ContentProperty(nameof(BusyIndicator.Children))]
+    [ContentProperty(nameof(Children))]
     public partial class BusyIndicator : UserControl
     {
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
-            nameof(BusyIndicator.Children),  
+            nameof(Children),  
             typeof(UIElementCollection),
             typeof(BusyIndicator),
             new PropertyMetadata());
 
         public UIElementCollection Children
         {
-            get => (UIElementCollection)this.GetValue(BusyIndicator.ChildrenProperty.DependencyProperty);
-            private set => this.SetValue(BusyIndicator.ChildrenProperty, value);
+            get => (UIElementCollection)GetValue(ChildrenProperty.DependencyProperty);
+            private set => SetValue(ChildrenProperty, value);
         }
 
         public BusyIndicator()
         {
             InitializeComponent();
-            this.Children = this.ChildrenContainer.Children;
+            Children = ChildrenContainer.Children;
         }
 
         #region IsBusy Dependency Property
@@ -33,8 +33,8 @@ namespace DedicabUtility.Client.Controls
 
         public bool IsBusy
         {
-            get => (bool)this.GetValue(BusyIndicator.IsBusyProperty);
-            set => this.SetValue(BusyIndicator.IsBusyProperty, value);
+            get => (bool)GetValue(IsBusyProperty);
+            set => SetValue(IsBusyProperty, value);
         }
 
         #endregion
@@ -47,20 +47,20 @@ namespace DedicabUtility.Client.Controls
 
         public string BusyText
         {
-            get => (string) this.GetValue(BusyIndicator.BusyTextProperty);
-            set => this.SetValue(BusyIndicator.BusyTextProperty, value);
+            get => (string) GetValue(BusyTextProperty);
+            set => SetValue(BusyTextProperty, value);
         }
         #endregion
 
         #region WheelColor Dependency Property
 
         public static readonly DependencyProperty WheelColorProperty =
-            DependencyProperty.RegisterAttached("WheelColor", typeof(Color), typeof(BusyIndicator), new PropertyMetadata(Colors.Gold, BusyIndicator.OnWheelColorPropertyChanged));
+            DependencyProperty.RegisterAttached("WheelColor", typeof(Color), typeof(BusyIndicator), new PropertyMetadata(Colors.Gold, OnWheelColorPropertyChanged));
 
         public Color WheelColor
         {
-            get => (Color)this.GetValue(BusyIndicator.WheelColorProperty);
-            set => this.SetValue(BusyIndicator.WheelColorProperty, value);
+            get => (Color)GetValue(WheelColorProperty);
+            set => SetValue(WheelColorProperty, value);
         }
         
         private static void OnWheelColorPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)

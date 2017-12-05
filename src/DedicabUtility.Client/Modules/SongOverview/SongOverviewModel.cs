@@ -10,24 +10,24 @@ namespace DedicabUtility.Client.Modules.SongOverview
         private SongGroupModel _selectedSongGroup;
         public SongGroupModel SelectedSongGroup 
         {
-            get => this._selectedSongGroup;
+            get => _selectedSongGroup;
             set
             {
-                if (Equals(value, this._selectedSongGroup)) return;
-                this._selectedSongGroup = value;
-                this.OnPropertyChanged();
+                if (Equals(value, _selectedSongGroup)) return;
+                _selectedSongGroup = value;
+                OnPropertyChanged();
             }
         }
 
         private SongDataModel _selectedSong;
         public SongDataModel SelectedSong
         {
-            get => this._selectedSong;
+            get => _selectedSong;
             set
             {
-                if (Equals(value, this._selectedSong)) return;
-                this._selectedSong = value;
-                this.OnPropertyChanged();
+                if (Equals(value, _selectedSong)) return;
+                _selectedSong = value;
+                OnPropertyChanged();
             }
         }
         
@@ -36,7 +36,7 @@ namespace DedicabUtility.Client.Modules.SongOverview
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

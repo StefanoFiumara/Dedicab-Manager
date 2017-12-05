@@ -11,48 +11,48 @@ namespace DedicabUtility.Client.Modules.ErrorPopup
         private string _title;
         public string Title
         {
-            get => this._title;
+            get => _title;
             set
             {
-                if (value == this._title) return;
-                this._title = value;
-                this.OnPropertyChanged();
+                if (value == _title) return;
+                _title = value;
+                OnPropertyChanged();
             }
         }
 
         private string _message;
         public string Message
         {
-            get => this._message;
+            get => _message;
             set
             {
-                if (value == this._message) return;
-                this._message = value;
-                this.OnPropertyChanged();
+                if (value == _message) return;
+                _message = value;
+                OnPropertyChanged();
             }
         }
 
         private Visibility _visibility;
         public Visibility Visibility
         {
-            get => this._visibility;
+            get => _visibility;
             set
             {
-                if (value == this._visibility) return;
-                this._visibility = value;
-                this.OnPropertyChanged();
+                if (value == _visibility) return;
+                _visibility = value;
+                OnPropertyChanged();
             }
         }
 
         private MessageIcon _messageIcon;
         public MessageIcon MessageIcon
         {
-            get => this._messageIcon;
+            get => _messageIcon;
             set
             {
-                if (value == this._messageIcon) return;
-                this._messageIcon = value;
-                this.OnPropertyChanged();
+                if (value == _messageIcon) return;
+                _messageIcon = value;
+                OnPropertyChanged();
             }
         }
 
@@ -61,7 +61,7 @@ namespace DedicabUtility.Client.Modules.ErrorPopup
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

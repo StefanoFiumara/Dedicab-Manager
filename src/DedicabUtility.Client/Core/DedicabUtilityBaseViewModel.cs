@@ -15,23 +15,28 @@ namespace DedicabUtility.Client.Core
 
         public DedicabDataModel DataModel
         {
-            get { return this._dataModel; }
+            get { return _dataModel; }
             set
             {
-                this._dataModel = value;
-                this.OnPropertyChanged();
+                _dataModel = value;
+                OnPropertyChanged();
             }
         }
 
         public DedicabUtilityBaseViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) : base(eventAggregator)
         {
-            this.DataService = dataService;
-            this.DataModel = dataModel;
+            DataService = dataService;
+            DataModel = dataModel;
 
             ProgressNotifier = new Progress<string>(i =>
             {
-                this.EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, $"Please Wait...\n{i}"));
+                EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, $"Please Wait...\n{i}"));
             });
+        }
+
+        protected void ShowPopup(string title, string message, MessageIcon icon)
+        {
+            EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs(title, message, icon));
         }
     }
 }

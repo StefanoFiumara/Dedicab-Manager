@@ -13,18 +13,18 @@ namespace DedicabUtility.Client.Core
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private ObservableCollection<SongGroupModel> _songGroups;
         public ObservableCollection<SongGroupModel> SongGroups
         {
-            get => this._songGroups;
+            get => _songGroups;
             set
             {
-                if (Equals(value, this._songGroups)) return;
-                this._songGroups = value;
-                this.OnPropertyChanged();
+                if (Equals(value, _songGroups)) return;
+                _songGroups = value;
+                OnPropertyChanged();
             }
         }
     }

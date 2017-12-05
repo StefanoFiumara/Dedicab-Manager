@@ -11,7 +11,7 @@ namespace DedicabUtility.Client.Core
 
         private MainWindowViewModel _mainWindowViewModel;
         public MainWindowViewModel MainWindowViewModel 
-            => this._mainWindowViewModel 
-                    ?? (this._mainWindowViewModel = new MainWindowViewModel(this._eventAggregator, this._dataService, this._dataModel));
+            => _mainWindowViewModel 
+                    ?? (_mainWindowViewModel = new MainWindowViewModel(_eventAggregator, _dataService, _dataModel));
     }
 }

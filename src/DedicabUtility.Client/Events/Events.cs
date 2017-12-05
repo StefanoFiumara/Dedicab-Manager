@@ -17,8 +17,8 @@ namespace DedicabUtility.Client.Events
     {
         public IsBusyEventArgs(bool busyState, string busyText = "")
         {
-            this.BusyText = busyText;
-            this.BusyState = busyState;
+            BusyText = busyText;
+            BusyState = busyState;
         }
 
         public string BusyText { get; set; }
@@ -33,9 +33,9 @@ namespace DedicabUtility.Client.Events
 
         public PopupEventArgs(string title, string message, MessageIcon icon = MessageIcon.Success)
         {
-            this.Title = title;
-            this.Message = message;
-            this.MessageIcon = icon;
+            Title = title;
+            Message = message;
+            MessageIcon = icon;
         }
     }
 }

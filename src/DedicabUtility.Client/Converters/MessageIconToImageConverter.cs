@@ -14,7 +14,7 @@ namespace DedicabUtility.Client.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string uri = MessageIconToImageConverter.ICON_SUCCESS;
+            string uri = ICON_SUCCESS;
 
             if (value != null)
             {
@@ -24,13 +24,13 @@ namespace DedicabUtility.Client.Converters
                 switch (icon)
                 {
                     case MessageIcon.Success:
-                        uri = MessageIconToImageConverter.ICON_SUCCESS;
+                        uri = ICON_SUCCESS;
                         break;
                     case MessageIcon.Warning:
-                        uri = MessageIconToImageConverter.ICON_WARNING;
+                        uri = ICON_WARNING;
                         break;
                     case MessageIcon.Error:
-                        uri = MessageIconToImageConverter.ICON_ERROR;
+                        uri = ICON_ERROR;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
