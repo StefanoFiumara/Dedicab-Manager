@@ -75,12 +75,16 @@ namespace DedicabUtility.Client.Modules.TournamentSet
 
         private bool CanBanSong()
         {
-            return SelectedSong?.PickState == PickState.None && TurnIndicator != 2 && TurnIndicator != 3;
+            return  SelectedSong?.PickState == PickState.None && 
+                    TurnIndicator != 2 &&
+                    TurnIndicator != 3;
         }
 
         private bool CanPickSong()
         {
-            return SelectedSong?.PickState == PickState.None && PickedSongs.Count < 3 && (TurnIndicator == 2 || TurnIndicator == 3);
+            return  SelectedSong?.PickState == PickState.None && 
+                    PickedSongs.Count < 3 && 
+                    (TurnIndicator == 2 || TurnIndicator == 3);
         }
 
         private void OnResetPicks()
@@ -93,21 +97,6 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             }
         }
 
-        private void OnBanSong()
-        {
-            SelectedSong.PickState = PickState.Banned;
-            if (SetSongs.Count(s => s.PickState == PickState.Banned) == 4)
-            {
-                foreach (var song in SetSongs.Where(s => s.PickState == PickState.None))
-                {
-                    song.PickState = PickState.Picked;
-                    PickedSongs.Add(song);
-                }
-            }
-
-            TurnIndicator++;
-        }
-
         private void OnPickSong()
         {
             SelectedSong.PickState = PickState.Picked;
@@ -118,6 +107,21 @@ namespace DedicabUtility.Client.Modules.TournamentSet
                 foreach (var song in SetSongs.Where(s => s.PickState == PickState.None))
                 {
                     song.PickState = PickState.Banned;
+                }
+            }
+
+            TurnIndicator++;
+        }
+
+        private void OnBanSong()
+        {
+            SelectedSong.PickState = PickState.Banned;
+            if (SetSongs.Count(s => s.PickState == PickState.Banned) == 4)
+            {
+                foreach (var song in SetSongs.Where(s => s.PickState == PickState.None))
+                {
+                    song.PickState = PickState.Picked;
+                    PickedSongs.Add(song);
                 }
             }
 
