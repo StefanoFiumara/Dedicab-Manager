@@ -14,6 +14,7 @@ namespace DedicabUtility.Client.Modules.TournamentSet
     {
         private SongGroupModel _selectedSongGroup;
         private TournamentSongWrapper _selectedSong;
+        private int _turnIndicator;
 
         public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, dataService, dataModel)
@@ -41,6 +42,16 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             }
         }
 
+        public int TurnIndicator
+        {
+            get => _turnIndicator;
+            set
+            {
+                _turnIndicator = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<TournamentSongWrapper> SetSongs { get; set; }
         public ObservableCollection<TournamentSongWrapper> PickedSongs { get; set; }
 
@@ -55,14 +66,27 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             PickedSongs = new ObservableCollection<TournamentSongWrapper>();
 
             GenerateSongSetCommand = new RelayCommand(OnGenerateSongSet, () => SelectedSongGroup != null);
-            PickSongCommand = new RelayCommand(OnPickSong, () => SelectedSong?.PickState == PickState.None && PickedSongs.Count < 3);
-            BanSongCommand = new RelayCommand(OnBanSong, () => SelectedSong?.PickState == PickState.None);
+            PickSongCommand = new RelayCommand(OnPickSong, CanPickSong);
+            BanSongCommand = new RelayCommand(OnBanSong, CanBanSong);
             ResetPicksCommand = new RelayCommand(OnResetPicks);
+
+            TurnIndicator = 0;
+        }
+
+        private bool CanBanSong()
+        {
+            return SelectedSong?.PickState == PickState.None && TurnIndicator != 2 && TurnIndicator != 3;
+        }
+
+        private bool CanPickSong()
+        {
+            return SelectedSong?.PickState == PickState.None && PickedSongs.Count < 3 && (TurnIndicator == 2 || TurnIndicator == 3);
         }
 
         private void OnResetPicks()
         {
             PickedSongs.Clear();
+            TurnIndicator = 0;
             foreach (var song in SetSongs)
             {
                 song.PickState = PickState.None;
@@ -80,6 +104,8 @@ namespace DedicabUtility.Client.Modules.TournamentSet
                     PickedSongs.Add(song);
                 }
             }
+
+            TurnIndicator++;
         }
 
         private void OnPickSong()
@@ -94,6 +120,8 @@ namespace DedicabUtility.Client.Modules.TournamentSet
                     song.PickState = PickState.Banned;
                 }
             }
+
+            TurnIndicator++;
         }
 
         private void OnGenerateSongSet()
@@ -101,6 +129,7 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             SetSongs.Clear();
             PickedSongs.Clear();
 
+            TurnIndicator = 0;
             var rnd = new Random();
 
             var songs = SelectedSongGroup.Songs.ToList();

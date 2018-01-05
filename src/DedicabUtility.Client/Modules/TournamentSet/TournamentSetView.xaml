@@ -49,19 +49,21 @@
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource PositiveColor1}" Text="Pick" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource PositiveColor1}" Text="Pick" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <Image Source="../../Images/turn-indicator.png" Height="30" Grid.Column="{Binding TurnIndicator}"></Image>
+                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Text="Player 1" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Text="Player 2" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource PositiveColor1}" Text="Pick" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource PositiveColor1}" Text="Pick" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock FontSize="11" Foreground="{StaticResource NegativeColor1}" Text="Ban" Grid.Row="2" Grid.Column="5" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
                 </Grid>
 
                 <ListBox ItemsSource="{Binding SetSongs}" ItemTemplate="{StaticResource TournamentSetTemplate}"

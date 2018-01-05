@@ -201,5 +201,8 @@
     <Resource Include="Images\ban.png" />
     <Resource Include="Images\select.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\turn-indicator.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
