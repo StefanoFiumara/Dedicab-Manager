@@ -13,4 +13,9 @@
     <SolidColorBrush x:Key="NegativeColor3" Color="#450003" />
     <SolidColorBrush x:Key="NegativeColor4" Color="#611B24" />
 
+    <SolidColorBrush x:Key="PositiveColor1" Color="ForestGreen" />
+    <SolidColorBrush x:Key="PositiveColor2" Color="#00AA00" />
+    <SolidColorBrush x:Key="PositiveColor3" Color="#005400" />
+    <SolidColorBrush x:Key="PositiveColor4" Color="#004400" />
+
 </ResourceDictionary>

@@ -69,6 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\MessageIconToImageConverter.cs" />
+    <Compile Include="Converters\PickStateToVisibilityConverter.cs" />
     <Compile Include="Core\AppSettings.cs" />
     <Compile Include="Controls\BusyIndicator.xaml.cs">
       <DependentUpon>BusyIndicator.xaml</DependentUpon>
@@ -80,6 +81,7 @@
     <Compile Include="Exceptions\SongPackNotFoundException.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Core\DedicabUtilityBaseViewModel.cs" />
+    <Compile Include="Models\TournamentSongWrapper.cs" />
     <Compile Include="Modules\ErrorPopup\ErrorPopup.xaml.cs">
       <DependentUpon>ErrorPopup.xaml</DependentUpon>
     </Compile>
@@ -195,6 +197,9 @@
     <Resource Include="Images\success.png" />
     <Resource Include="Images\warning.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\ban.png" />
+    <Resource Include="Images\select.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

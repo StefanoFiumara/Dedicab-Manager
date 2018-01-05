@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:DedicabUtility.Client.Models"
                     xmlns:tournamentSet="clr-namespace:DedicabUtility.Client.Modules.TournamentSet"
-                    xmlns:songOverview="clr-namespace:DedicabUtility.Client.Modules.SongOverview">
+                    xmlns:songOverview="clr-namespace:DedicabUtility.Client.Modules.SongOverview"
+                    xmlns:converters="clr-namespace:DedicabUtility.Client.Converters">
     
     
     <DataTemplate DataType="{x:Type songOverview:SongOverviewViewModel}">
@@ -66,7 +67,7 @@
                 <ColumnDefinition Width="15" />
                 <ColumnDefinition Width="15" />
                 <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions> 
             <TextBlock TextAlignment="Center" Grid.Column="0"
                        Text="{Binding DifficultyDoubles[Beginner], Converter={StaticResource DifficultyValueConverter}}"
                        Foreground="DodgerBlue" FontWeight="Bold" />
@@ -127,4 +128,36 @@
         </StackPanel>
     </DataTemplate>
 
+    <converters:PickStateToVisibilityConverter x:Key="PickedConverter" VisibleState="Picked"/>
+    <converters:PickStateToVisibilityConverter x:Key="BannedConverter" VisibleState="Banned"/>
+    <DataTemplate x:Key="TournamentSetTemplate" DataType="{x:Type models:TournamentSongWrapper}">
+        <Grid>
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Image Source="{Binding SongData.SongBanner, Mode=TwoWay}"
+                       Width="175"  Height="69" />
+
+                <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
+
+                <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>
+            </StackPanel>
+            <Border Background="#77666666" Visibility="{Binding PickState, Converter={StaticResource BannedConverter}}">
+                <Image Source="../Images/ban.png" Height="100"/>
+            </Border>
+            <Border Background="#77666666" Visibility="{Binding PickState, Converter={StaticResource PickedConverter}}">
+                <Image Source="../Images/select.png" Height="100"/>
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TournamentSetPickedTemplate" DataType="{x:Type models:TournamentSongWrapper}">
+        <Grid>
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Image Source="{Binding SongData.SongBanner, Mode=TwoWay}"
+                       Width="175"  Height="69" />
+                <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
+                <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    
 </ResourceDictionary>

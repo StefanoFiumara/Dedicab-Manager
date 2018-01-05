@@ -51,7 +51,23 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style x:Key="PositiveButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource PositiveColor2}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource PositiveColor1}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource PositiveColor3}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource PositiveColor3}" />
+                <Setter Property="Image.Opacity" Value="0.7" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style x:Key="PanelBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource PanelColor}" />
         <Setter Property="Padding" Value="10,10,10,10" />
