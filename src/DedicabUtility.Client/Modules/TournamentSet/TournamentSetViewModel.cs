@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DedicabUtility.Client.Core;
@@ -7,6 +8,7 @@ using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
 using FanoMvvm.Commands;
 using FanoMvvm.Events;
+using StepmaniaUtils.Enums;
 
 namespace DedicabUtility.Client.Modules.TournamentSet
 {
@@ -15,13 +17,15 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         private SongGroupModel _selectedSongGroup;
         private TournamentSongWrapper _selectedSong;
         private int _turnIndicator;
+        private int _maxDifficulty;
+        private int _minDifficulty;
 
         public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, dataService, dataModel)
         {
             Initialize();
         }
-
+        
         public SongGroupModel SelectedSongGroup
         {
             get => _selectedSongGroup;
@@ -48,6 +52,28 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             set
             {
                 _turnIndicator = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<int> SelectableDifficultyRanges { get; } = new List<int>(Enumerable.Range(1, 25));
+
+        public int MinDifficulty
+        {
+            get => _minDifficulty;
+            set
+            {
+                _minDifficulty = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int MaxDifficulty
+        {
+            get => _maxDifficulty;
+            set
+            {
+                _maxDifficulty = value;
                 OnPropertyChanged();
             }
         }
@@ -138,12 +164,34 @@ namespace DedicabUtility.Client.Modules.TournamentSet
 
             var songs = SelectedSongGroup.Songs.ToList();
 
-            for (int i = 0; i < 7; i++)
+            if (songs.Count(s =>
+                    s.DifficultySingles.ContainsKey(SongDifficulty.Challenge) &&
+                    IsInDifficultyRange(s.DifficultySingles[SongDifficulty.Challenge])) < 7)
+            {
+                EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not Enough Songs", "There aren't enough songs in this song pack to generate the set.", MessageIcon.Error));
+                return;
+            }
+            while (SetSongs.Count < 7)
             {
                 int randomIndex = rnd.Next(0, songs.Count);
-                SetSongs.Add( new TournamentSongWrapper(songs[randomIndex]) );
-                songs.RemoveAt(randomIndex);
+                var song = songs[randomIndex];
+
+                if (song.DifficultySingles.ContainsKey(SongDifficulty.Challenge))
+                {
+                    int rating = song.DifficultySingles[SongDifficulty.Challenge];
+
+                    if (IsInDifficultyRange(rating))
+                    {
+                        SetSongs.Add(new TournamentSongWrapper(song));
+                        songs.RemoveAt(randomIndex);
+                    }
+                }
             }
+        }
+
+        private bool IsInDifficultyRange(int rating)
+        {
+            return rating >= MinDifficulty && rating <= MaxDifficulty;
         }
     }
 }

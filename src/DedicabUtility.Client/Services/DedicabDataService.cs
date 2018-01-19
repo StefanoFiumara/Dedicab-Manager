@@ -89,7 +89,7 @@ namespace DedicabUtility.Client.Services
                     File.Copy(file, Path.Combine(songPath, fileName), overwrite: true);
                 }
             });
-
+            
             //Reassign SmFiles to the newly copied location.
             progress.Report("Reading new metadata...");
             var songDataModels = Directory.EnumerateFiles(newPackPath, "*.sm", SearchOption.AllDirectories)

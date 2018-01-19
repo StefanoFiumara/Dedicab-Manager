@@ -22,8 +22,14 @@
                 <Button Command="{Binding GenerateSongSetCommand}" HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Content="Generate Song Set"
-                        Style="{StaticResource ButtonStyle}">
-                </Button>
+                        Style="{StaticResource ButtonStyle}"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource LabelStyle}" Text="Minimum Difficulty:" VerticalAlignment="Bottom" />
+                    <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MinDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
+                    <TextBlock Style="{StaticResource LabelStyle}" Text="Maximum Difficulty:" VerticalAlignment="Bottom" />
+                    <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MaxDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
+                </StackPanel>
 
             </StackPanel>
         </Border>
