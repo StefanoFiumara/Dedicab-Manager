@@ -33,6 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\itg-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DedicabUtility.Client.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FanoMvvm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -203,6 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\turn-indicator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\itg-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

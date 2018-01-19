@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Background="{StaticResource BackgroundColor}"
         Title="Fano's Dedicab Utility"
-        Icon="Images/window_icon.png" ResizeMode="CanMinimize"
+        ResizeMode="CanMinimize"
         Width="980" Height="1050" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
