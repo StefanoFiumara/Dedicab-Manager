@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
+using FanoMvvm;
 using FanoMvvm.Commands;
 using FanoMvvm.Events;
 using Ookii.Dialogs.Wpf;
@@ -29,6 +31,8 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
         public ICommand AddSongsCommand { get; set; }
         public ICommand RemoveSongPackCommand { get; set; }
+        public ICommand OpenSongFolderCommand { get; set; }
+        public ICommand OpenGroupFolderCommand { get; set; }
 
         public SongOverviewViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, dataService, dataModel)
@@ -41,6 +45,24 @@ namespace DedicabUtility.Client.Modules.SongOverview
             Model = new SongOverviewModel();
             AddSongsCommand = new RelayCommand(OnAddSongs);
             RemoveSongPackCommand = new RelayCommand<SongGroupModel>(OnRemoveSongPack, s => s != null);
+            OpenSongFolderCommand = new RelayCommand<SongDataModel>(OnOpenSongFolder);
+            OpenGroupFolderCommand = new RelayCommand<SongGroupModel>(OnOpenGroupFolder);
+        }
+
+        private void OnOpenSongFolder(SongDataModel song)
+        {
+            if (song != null)
+            {
+                Process.Start(song.Directory);
+            }
+        }
+
+        private void OnOpenGroupFolder(SongGroupModel group)
+        {
+            if (group != null)
+            {
+                Process.Start(group.Directory);
+            }
         }
 
         private string PromptFolderBrowser()
@@ -80,6 +102,9 @@ namespace DedicabUtility.Client.Modules.SongOverview
             {
                 var newGroup = await Task.Run(() => DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName, ProgressNotifier));
                 DataModel.SongGroups.Add(newGroup);
+                DataModel.SongGroups.Sort(m => m.Name);
+                Model.SelectedSongGroup = newGroup;
+
             }
             catch (DuplicateSongPackException)
             {

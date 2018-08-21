@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using DedicabUtility.Client.Core;
 
 namespace DedicabUtility.Client.Models
 {
@@ -8,6 +10,7 @@ namespace DedicabUtility.Client.Models
     {
         public Guid GroupId { get; }
         public string Name { get; }
+        public string Directory => Path.Combine(AppSettings.Get(Setting.StepmaniaInstallLocation), "Songs", Name);
 
         public List<SongDataModel> Songs => LazySongList.Value;
 

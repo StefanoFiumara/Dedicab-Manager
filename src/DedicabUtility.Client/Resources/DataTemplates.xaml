@@ -14,7 +14,13 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type models:SongGroupModel}">
-        <TextBlock Text="{Binding Name}" />
+        <TextBlock Text="{Binding Name}">
+            <TextBlock.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                              Command="{Binding DataContext.OpenGroupFolderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                              CommandParameter="{Binding}" />
+            </TextBlock.InputBindings>
+        </TextBlock>
     </DataTemplate>
 
     <!-- Place these templates in user controls for designer support -->
@@ -96,6 +102,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                              Command="{Binding DataContext.OpenSongFolderCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                              CommandParameter="{Binding}" />
+            </Grid.InputBindings>
             <TextBlock Grid.Column="0" Text="{Binding SongName}" HorizontalAlignment="Left"/>
             <ContentControl Grid.Column="1" HorizontalAlignment="Right"
                             Content="{Binding}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" />

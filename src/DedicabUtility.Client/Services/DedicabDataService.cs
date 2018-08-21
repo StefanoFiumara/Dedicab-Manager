@@ -84,7 +84,7 @@ namespace DedicabUtility.Client.Services
                     Directory.CreateDirectory(songPath);
                     foreach (var f in relatedStepFiles)
                     {
-                        string fileName = file.Split(Path.DirectorySeparatorChar).Last();
+                        string fileName = f.Split(Path.DirectorySeparatorChar).Last();
                         File.Copy(f, Path.Combine(songPath, fileName), overwrite: true);
                     }
                 }

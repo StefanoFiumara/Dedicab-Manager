@@ -10,12 +10,14 @@ namespace DedicabUtility.Client.Models
     public class SongDataModel
     { 
         private const string DefaultBannerPath = @"pack://application:,,,/DedicabUtility.Client;component/Images/defaultbanner.png";
-        private static Uri _defaultBannerUri = new Uri(DefaultBannerPath);
+        private static readonly Uri DefaultBannerUri = new Uri(DefaultBannerPath);
 
         private readonly SmFile _smFile;
 
         public string SongName => _smFile.SongTitle;
         public string Group => _smFile.Group;
+        public string Directory => _smFile.Directory;
+
         public BitmapImage SongBanner { get; set; }
 
         public Dictionary<SongDifficulty, int> DifficultySingles { get; set; }
@@ -49,14 +51,14 @@ namespace DedicabUtility.Client.Models
                 }
                 else
                 {
-                    return new BitmapImage(_defaultBannerUri);
+                    return new BitmapImage(DefaultBannerUri);
                 }
             }
             catch (Exception)
             {
                 Console.WriteLine($@"Could not load banner image for {_smFile.FilePath}");
                 Console.WriteLine($@"Banner path: {_smFile.BannerPath}");
-                return new BitmapImage(_defaultBannerUri);
+                return new BitmapImage(DefaultBannerUri);
             }
 
             return image;
