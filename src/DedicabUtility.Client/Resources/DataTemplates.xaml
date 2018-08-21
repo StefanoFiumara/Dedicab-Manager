@@ -116,7 +116,7 @@
 
     <DataTemplate x:Key="SongDetailTemplate" DataType="{x:Type models:SongDataModel}">
         <StackPanel Orientation="Vertical">
-            <Image Source="{Binding SongBanner, Mode=TwoWay}"
+            <Image Source="{Binding SongBanner}"
                    Width="209" Height="82" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Group}" Margin="5,0" FontWeight="Bold"/>
@@ -133,7 +133,7 @@
     <DataTemplate x:Key="TournamentSetTemplate" DataType="{x:Type models:TournamentSongWrapper}">
         <Grid>
             <StackPanel Orientation="Vertical" Margin="5">
-                <Image Source="{Binding SongData.SongBanner, Mode=TwoWay}"
+                <Image Source="{Binding SongData.SongBanner}"
                        Width="175"  Height="69" />
 
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
@@ -152,7 +152,7 @@
     <DataTemplate x:Key="TournamentSetPickedTemplate" DataType="{x:Type models:TournamentSongWrapper}">
         <Grid>
             <StackPanel Orientation="Vertical" Margin="5">
-                <Image Source="{Binding SongData.SongBanner, Mode=TwoWay}"
+                <Image Source="{Binding SongData.SongBanner}"
                        Width="175"  Height="69" />
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
                 <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>

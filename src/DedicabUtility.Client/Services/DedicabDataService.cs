@@ -7,19 +7,16 @@ using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using StepmaniaUtils.Core;
 using StepmaniaUtils.Enums;
-using StepmaniaUtils.StepChart;
 
 namespace DedicabUtility.Client.Services
 {
     public class SongMetadata
     {
         public SmFile SmFile { get; set; }
-        public ChartData ChartData { get; set; }
-
+        
         public SongMetadata(string smFilePath)
         {
             SmFile = new SmFile(smFilePath);
-            ChartData = SmFile.ExtractChartData(extractAllStepData: false);
         }
     }
     public sealed class DedicabDataService
@@ -31,7 +28,20 @@ namespace DedicabUtility.Client.Services
             progress.Report("Scanning Song Library...");
             return Directory.EnumerateFiles(songsPath, "*.sm", SearchOption.AllDirectories)
                             .AsParallel()
-                            .Select(f =>  new SongMetadata(f))
+                            .Select(f =>
+                                        {
+                                            try
+                                            {
+                                                return new SongMetadata(f);
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                Console.WriteLine($"Could not load file at: {f}\n {e}");
+                                                return null;
+                                            }
+                                            
+                                        })
+                            .Where(s => s != null)
                             .GroupBy(s => s.SmFile.Group)
                             .ToList();
         }
@@ -49,54 +59,48 @@ namespace DedicabUtility.Client.Services
             {
                 throw new DuplicateSongPackException();
             }
-
-            var smFiles = newSongs.Where(File.Exists).Select(f => new SmFile(f));
-
+            
             progress.Report("Copying to Stepmania Installation...");
 
-            Parallel.ForEach(smFiles, smFile =>
+            foreach (string file in newSongs.Where(File.Exists))
             {
-                using (var chartData = smFile.ExtractChartData())
+                var smFile = new SmFile(file);
+                if (smFile.ChartMetadata.GetSteps(PlayStyle.Lights, SongDifficulty.Easy) == null)
                 {
-                    if (chartData.GetSteps(PlayStyle.Lights, SongDifficulty.Easy) == null)
-                    {
-                        var referenceChart =    chartData.GetSteps(PlayStyle.Single, SongDifficulty.Hard)
-                                             ?? chartData.GetSteps(PlayStyle.Single, SongDifficulty.Challenge)
-                                             ?? chartData.GetSteps(PlayStyle.Single, chartData.GetHighestChartedDifficulty(PlayStyle.Single))
-                                             ?? chartData.GetSteps(PlayStyle.Double, SongDifficulty.Hard)
-                                             ?? chartData.GetSteps(PlayStyle.Double, SongDifficulty.Challenge)
-                                             ?? chartData.GetSteps(PlayStyle.Double, chartData.GetHighestChartedDifficulty(PlayStyle.Double));
-
-                        var lightsChart = StepChartBuilder.GenerateLightsChart(referenceChart);
-
-                        chartData.AddNewStepchart(lightsChart);
-                    }
+                    var lightsChart = StepChartBuilder.GenerateLightsChart(smFile);
+                    smFile.AddLightsChart(lightsChart);
                 }
 
                 var relatedStepFiles = Directory.EnumerateFiles(smFile.Directory).Where(f => !f.EndsWith(".ssc"));
 
                 //Strip out invalid file name chars
                 string songName = Path.GetInvalidFileNameChars()
-                    .Aggregate(smFile.SongName, (current, c) => current.Replace(c.ToString(), ""));
+                    .Aggregate(smFile.SongTitle, (current, c) => current.Replace(c.ToString(), ""));
 
                 var songPath = Path.Combine(newPackPath, songName);
-
-                Directory.CreateDirectory(songPath);
-
-                foreach (var file in relatedStepFiles)
+                
+                try
                 {
-                    string fileName = file.Split(Path.DirectorySeparatorChar).Last();
-                    File.Copy(file, Path.Combine(songPath, fileName), overwrite: true);
+                    Directory.CreateDirectory(songPath);
+                    foreach (var f in relatedStepFiles)
+                    {
+                        string fileName = file.Split(Path.DirectorySeparatorChar).Last();
+                        File.Copy(f, Path.Combine(songPath, fileName), overwrite: true);
+                    }
                 }
-            });
+                catch (Exception e)
+                {
+                    Console.WriteLine($@"Error copying files related to song {songName}, Exception: {e}");
+                    Directory.Delete(songPath);
+                }
+            }
             
             //Reassign SmFiles to the newly copied location.
             progress.Report("Reading new metadata...");
             var songDataModels = Directory.EnumerateFiles(newPackPath, "*.sm", SearchOption.AllDirectories)
-                               .Select(s => new SmFile(s))
-                               .Select(sm => new SongDataModel(sm))
-                               .OrderBy(sm => sm.SongName)
-                               .ToList();
+                .Select(s => new SmFile(s))
+                .Select(sm => new SongDataModel(sm))
+                .OrderBy(sm => sm.SongName);
 
             return new SongGroupModel(newPackName, songDataModels);
         }

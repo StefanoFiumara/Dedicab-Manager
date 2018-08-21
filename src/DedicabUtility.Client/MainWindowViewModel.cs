@@ -145,7 +145,7 @@ namespace DedicabUtility.Client
 
             foreach (var songGroup in songGroups)
             {
-                var songDataModels = songGroup.Select(g => new SongDataModel(g.SmFile, g.ChartData))
+                var songDataModels = songGroup.Select(g => new SongDataModel(g.SmFile))
                                               .OrderBy(sm => sm.SongName);
 
                 var groupModel = new SongGroupModel(songGroup.Key, songDataModels);
