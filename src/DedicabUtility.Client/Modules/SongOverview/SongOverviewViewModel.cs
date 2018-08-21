@@ -79,14 +79,14 @@ namespace DedicabUtility.Client.Modules.SongOverview
             var selectedDirectory = PromptFolderBrowser();
             if (string.IsNullOrEmpty(selectedDirectory)) return;
 
-            var smFiles = Directory.EnumerateFiles(selectedDirectory, "*.sm", SearchOption.AllDirectories).ToList();
+            var newSongs = Directory.EnumerateFiles(selectedDirectory, "*.sm", SearchOption.AllDirectories).ToList();
 
             if (Directory.EnumerateDirectories(selectedDirectory).Any() == false)
             {
                 ShowPopup("Not A Song Group?", "There were no subfolders found in the selected folder.\nAre you sure you selected a song group?", MessageIcon.Warning);
                 return;
             }
-            if (!smFiles.Any())
+            if (!newSongs.Any())
             {
                 ShowPopup("No Songs Found", "There were no songs found in the selected folder.", MessageIcon.Warning);
                 return;
@@ -94,13 +94,13 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
             EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
 
-            string newPackName = selectedDirectory.Split(Path.DirectorySeparatorChar).Last();
+            
 
             var stepmaniaDirLocation = AppSettings.Get(Setting.StepmaniaInstallLocation);
                
             try
             {
-                var newGroup = await Task.Run(() => DataService.AddNewSongs(stepmaniaDirLocation, smFiles, newPackName, ProgressNotifier));
+                var newGroup = await Task.Run(() => DataService.AddNewSongs(stepmaniaDirLocation, newSongs, selectedDirectory, ProgressNotifier));
                 DataModel.SongGroups.Add(newGroup);
                 DataModel.SongGroups.Sort(m => m.Name);
                 Model.SelectedSongGroup = newGroup;
@@ -116,7 +116,6 @@ namespace DedicabUtility.Client.Modules.SongOverview
 
         private async void OnRemoveSongPack(SongGroupModel songPack)
         {
-            //TODO: Are you sure?
             var stepmaniaDirLocation = AppSettings.Get(Setting.StepmaniaInstallLocation);
             
             try

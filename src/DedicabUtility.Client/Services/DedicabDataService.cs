@@ -46,8 +46,10 @@ namespace DedicabUtility.Client.Services
                             .ToList();
         }
 
-        public SongGroupModel AddNewSongs(string stepmaniaRoot, IEnumerable<string> newSongs, string newPackName, IProgress<string> progress)
+        public SongGroupModel AddNewSongs(string stepmaniaRoot, IEnumerable<string> newSongs, string selectedDirectory, IProgress<string> progress)
         {
+            string newPackName = selectedDirectory.Split(Path.DirectorySeparatorChar).Last();
+
             progress.Report("Creating Directory...");
             var newPackPath = Path.Combine(stepmaniaRoot, @"Songs", newPackName);
 
@@ -61,6 +63,21 @@ namespace DedicabUtility.Client.Services
             }
             
             progress.Report("Copying to Stepmania Installation...");
+
+            var groupFiles = Directory.EnumerateFiles(selectedDirectory, "*", SearchOption.TopDirectoryOnly);
+
+            try
+            {
+                foreach (var f in groupFiles)
+                {
+                    string fileName = f.Split(Path.DirectorySeparatorChar).Last();
+                    File.Copy(f, Path.Combine(newPackPath, fileName), overwrite: true);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error copying group level files related to new song group {newPackName} Exception:\n {e}");
+            }
 
             foreach (string file in newSongs.Where(File.Exists))
             {
