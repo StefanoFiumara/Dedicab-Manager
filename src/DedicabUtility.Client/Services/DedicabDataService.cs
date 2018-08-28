@@ -7,6 +7,7 @@ using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using StepmaniaUtils.Core;
 using StepmaniaUtils.Enums;
+using StepmaniaUtils.StepGenerator;
 
 namespace DedicabUtility.Client.Services
 {
