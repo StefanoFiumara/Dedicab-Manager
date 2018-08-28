@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:FanoMvvm.Converters;assembly=FanoMvvm"
-                    xmlns:localConverters="clr-namespace:DedicabUtility.Client.Converters">
+                    xmlns:localConverters="clr-namespace:DedicabUtility.Client.Converters"
+                    xmlns:converters="clr-namespace:Fano.Mvvm.Converters;assembly=Fano.Mvvm">
     <converters:NegateConverter x:Key="NegateConverter" />
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

@@ -1,5 +1,5 @@
 using DedicabUtility.Client.Core;
-using FanoMvvm.Events;
+using Fano.Events.Core;
 
 namespace DedicabUtility.Client.Events
 {

@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:hammer="clr-namespace:Hammer.SpinningWheel;assembly=Hammer.SpinningWheel"
-             xmlns:converters="clr-namespace:FanoMvvm.Converters;assembly=FanoMvvm"
+             xmlns:converters="clr-namespace:Fano.Mvvm.Converters;assembly=Fano.Mvvm"
+
              mc:Ignorable="d">
     <Grid>
         <Grid.Resources>

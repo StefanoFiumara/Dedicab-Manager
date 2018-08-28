@@ -13,10 +13,10 @@ using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Modules.SongOverview;
 using DedicabUtility.Client.Modules.TournamentSet;
 using DedicabUtility.Client.Services;
-using FanoMvvm.Commands;
-using FanoMvvm.Core;
-using FanoMvvm.Events;
-using FanoMvvm.Utility;
+using Fano.Events.Core;
+using Fano.Mvvm.Commands;
+using Fano.Mvvm.Core;
+using Fano.Mvvm.Utility;
 using Ookii.Dialogs.Wpf;
 
 namespace DedicabUtility.Client

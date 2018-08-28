@@ -6,8 +6,8 @@ using DedicabUtility.Client.Core;
 using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
-using FanoMvvm.Commands;
-using FanoMvvm.Events;
+using Fano.Events.Core;
+using Fano.Mvvm.Commands;
 using StepmaniaUtils.Enums;
 
 namespace DedicabUtility.Client.Modules.TournamentSet
@@ -97,6 +97,8 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             ResetPicksCommand = new RelayCommand(OnResetPicks);
 
             TurnIndicator = 0;
+            MinDifficulty = 9;
+            MaxDifficulty = 13;
         }
 
         private bool CanBanSong()

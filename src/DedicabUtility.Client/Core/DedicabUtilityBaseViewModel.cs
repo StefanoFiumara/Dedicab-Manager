@@ -1,8 +1,8 @@
 ﻿using System;
 using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Services;
-using FanoMvvm.Core;
-using FanoMvvm.Events;
+using Fano.Events.Core;
+using Fano.Mvvm.Core;
 
 namespace DedicabUtility.Client.Core
 {

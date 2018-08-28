@@ -9,9 +9,9 @@ using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
-using FanoMvvm;
-using FanoMvvm.Commands;
-using FanoMvvm.Events;
+using Fano.Events.Core;
+using Fano.Mvvm.Commands;
+using Fano.Mvvm.Extensions;
 using Ookii.Dialogs.Wpf;
 
 namespace DedicabUtility.Client.Modules.SongOverview

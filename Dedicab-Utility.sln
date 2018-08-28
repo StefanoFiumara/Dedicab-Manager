@@ -5,8 +5,12 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{E0798032-5B07-4072-AB39-5871E7972C5C}"
 	ProjectSection(SolutionItems) = preProject
-		lib\FanoMvvm.dll = lib\FanoMvvm.dll
-		lib\FanoMvvm.pdb = lib\FanoMvvm.pdb
+		lib\Fano.Events.dll = lib\Fano.Events.dll
+		lib\Fano.Events.pdb = lib\Fano.Events.pdb
+		lib\Fano.Logging.dll = lib\Fano.Logging.dll
+		lib\Fano.Logging.pdb = lib\Fano.Logging.pdb
+		lib\Fano.Mvvm.dll = lib\Fano.Mvvm.dll
+		lib\Fano.Mvvm.pdb = lib\Fano.Mvvm.pdb
 		lib\StepmaniaUtils.dll = lib\StepmaniaUtils.dll
 		lib\StepmaniaUtils.pdb = lib\StepmaniaUtils.pdb
 	EndProjectSection
