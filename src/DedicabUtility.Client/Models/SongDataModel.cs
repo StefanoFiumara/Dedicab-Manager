@@ -56,8 +56,6 @@ namespace DedicabUtility.Client.Models
             }
             catch (Exception)
             {
-                Console.WriteLine($@"Could not load banner image for {_smFile.FilePath}");
-                Console.WriteLine($@"Banner path: {_smFile.BannerPath}");
                 return new BitmapImage(DefaultBannerUri);
             }
 

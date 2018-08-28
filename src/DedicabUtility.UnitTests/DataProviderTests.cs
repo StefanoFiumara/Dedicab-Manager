@@ -5,6 +5,7 @@ using System.Linq;
 using DedicabUtility.Client.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DedicabUtility.Client.Exceptions;
+using Fano.Logging.Core;
 
 namespace DedicabUtility.UnitTests
 {
@@ -23,7 +24,7 @@ namespace DedicabUtility.UnitTests
         [TestInitialize]
         public void TestInit()
         {    
-            DataService = new DedicabDataService();
+            DataService = new DedicabDataService(new ConsoleLogger());
         }
 
         [TestCleanup]

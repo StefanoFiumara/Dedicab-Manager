@@ -1,17 +1,37 @@
 ﻿using DedicabUtility.Client.Services;
 using Fano.Events.Core;
+using Fano.Logging.Core;
 
 namespace DedicabUtility.Client.Core
 {
     public class CompositionRoot
     {
-        private readonly DedicabDataService _dataService = new DedicabDataService();
-        private readonly DedicabDataModel _dataModel = new DedicabDataModel();
-        private readonly IEventAggregator _eventAggregator = new EventAggregator();
-
+        private readonly DedicabDataModel _dataModel;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ILogger _log;
+        private readonly DedicabDataService _dataService;
         private MainWindowViewModel _mainWindowViewModel;
-        public MainWindowViewModel MainWindowViewModel 
-            => _mainWindowViewModel 
-                    ?? (_mainWindowViewModel = new MainWindowViewModel(_eventAggregator, _dataService, _dataModel));
+
+        public CompositionRoot()
+        {
+            _eventAggregator = new EventAggregator();
+            _log = new FileLogger("DedicabUtility.log");
+            _dataService = new DedicabDataService(_log);
+            _dataModel = new DedicabDataModel();
+        }
+
+        
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get
+            {
+                if (_mainWindowViewModel == null)
+                {
+                    _mainWindowViewModel = new MainWindowViewModel(_eventAggregator, _log, _dataService, _dataModel);
+                }
+
+                return _mainWindowViewModel;
+            }
+        }
     }
 }

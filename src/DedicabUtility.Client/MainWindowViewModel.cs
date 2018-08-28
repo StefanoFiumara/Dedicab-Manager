@@ -14,6 +14,7 @@ using DedicabUtility.Client.Modules.SongOverview;
 using DedicabUtility.Client.Modules.TournamentSet;
 using DedicabUtility.Client.Services;
 using Fano.Events.Core;
+using Fano.Logging.Core;
 using Fano.Mvvm.Commands;
 using Fano.Mvvm.Core;
 using Fano.Mvvm.Utility;
@@ -57,8 +58,8 @@ namespace DedicabUtility.Client
             }
         }
 
-        public MainWindowViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
-            : base(eventAggregator, dataService, dataModel)
+        public MainWindowViewModel(IEventAggregator eventAggregator, ILogger log, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, log, dataService, dataModel)
         {
             Initialize();
         }
@@ -84,8 +85,8 @@ namespace DedicabUtility.Client
             });
 
             EventAggregator.Subscribe<UpdateSongDataEvent>(OnUpdateSongData);
-            SongOverview = new SongOverviewViewModel(EventAggregator, DataService, DataModel);
-            TournamentSet = new TournamentSetViewModel(EventAggregator, DataService, DataModel);
+            SongOverview = new SongOverviewViewModel(EventAggregator, Log, DataService, DataModel);
+            TournamentSet = new TournamentSetViewModel(EventAggregator, Log, DataService, DataModel);
 
             VerifyStepmaniaInstallLocation();
         }

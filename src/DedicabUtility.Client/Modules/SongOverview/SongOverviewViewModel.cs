@@ -10,6 +10,7 @@ using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
 using Fano.Events.Core;
+using Fano.Logging.Core;
 using Fano.Mvvm.Commands;
 using Fano.Mvvm.Extensions;
 using Ookii.Dialogs.Wpf;
@@ -34,8 +35,8 @@ namespace DedicabUtility.Client.Modules.SongOverview
         public ICommand OpenSongFolderCommand { get; set; }
         public ICommand OpenGroupFolderCommand { get; set; }
 
-        public SongOverviewViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
-            : base(eventAggregator, dataService, dataModel)
+        public SongOverviewViewModel(IEventAggregator eventAggregator, ILogger log, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, log, dataService, dataModel)
         {
             Initialize();
         }

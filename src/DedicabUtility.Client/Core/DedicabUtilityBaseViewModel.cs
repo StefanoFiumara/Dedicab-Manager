@@ -2,6 +2,7 @@
 using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Services;
 using Fano.Events.Core;
+using Fano.Logging.Core;
 using Fano.Mvvm.Core;
 
 namespace DedicabUtility.Client.Core
@@ -15,7 +16,7 @@ namespace DedicabUtility.Client.Core
 
         public DedicabDataModel DataModel
         {
-            get { return _dataModel; }
+            get => _dataModel;
             set
             {
                 _dataModel = value;
@@ -23,7 +24,7 @@ namespace DedicabUtility.Client.Core
             }
         }
 
-        public DedicabUtilityBaseViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) : base(eventAggregator)
+        public DedicabUtilityBaseViewModel(IEventAggregator eventAggregator, ILogger log, DedicabDataService dataService, DedicabDataModel dataModel) : base(eventAggregator, log)
         {
             DataService = dataService;
             DataModel = dataModel;

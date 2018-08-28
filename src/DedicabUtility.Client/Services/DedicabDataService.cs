@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DedicabUtility.Client.Exceptions;
 using DedicabUtility.Client.Models;
+using Fano.Logging.Core;
 using StepmaniaUtils.Core;
 using StepmaniaUtils.Enums;
 using StepmaniaUtils.StepGenerator;
@@ -22,6 +23,13 @@ namespace DedicabUtility.Client.Services
     }
     public sealed class DedicabDataService
     {
+        public ILogger Log { get; }
+
+        public DedicabDataService(ILogger log)
+        {
+            Log = log;
+        }
+
         public List<IGrouping<string, SongMetadata>> ScanSongData(string stepmaniaRootPath, IProgress<string> progress)
         {
             var songsPath = Path.Combine(stepmaniaRootPath, @"Songs");
@@ -37,7 +45,7 @@ namespace DedicabUtility.Client.Services
                                             }
                                             catch(Exception e)
                                             {
-                                                Console.WriteLine($"Could not load file at: {f}\n {e}");
+                                                Log.Error($"{nameof(ScanSongData)} - Could not load file at: {f}\n {e}");
                                                 return null;
                                             }
                                             
@@ -77,7 +85,7 @@ namespace DedicabUtility.Client.Services
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Error copying group level files related to new song group {newPackName} Exception:\n {e}");
+                Log.Error($"{nameof(AddNewSongs)} - failed to copy group level files related to new song group {newPackName}\n{e}");
             }
 
             foreach (string file in newSongs.Where(File.Exists))
@@ -108,7 +116,7 @@ namespace DedicabUtility.Client.Services
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($@"Error copying files related to song {songName}, Exception: {e}");
+                    Log.Error($@"{nameof(AddNewSongs)} - Failed copying files related to song {songName}\n{e}");
                     Directory.Delete(songPath);
                 }
             }

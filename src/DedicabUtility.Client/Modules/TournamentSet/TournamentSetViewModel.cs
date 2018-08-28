@@ -7,6 +7,7 @@ using DedicabUtility.Client.Events;
 using DedicabUtility.Client.Models;
 using DedicabUtility.Client.Services;
 using Fano.Events.Core;
+using Fano.Logging.Core;
 using Fano.Mvvm.Commands;
 using StepmaniaUtils.Enums;
 
@@ -20,8 +21,8 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         private int _maxDifficulty;
         private int _minDifficulty;
 
-        public TournamentSetViewModel(IEventAggregator eventAggregator, DedicabDataService dataService, DedicabDataModel dataModel) 
-            : base(eventAggregator, dataService, dataModel)
+        public TournamentSetViewModel(IEventAggregator eventAggregator, ILogger log, DedicabDataService dataService, DedicabDataModel dataModel) 
+            : base(eventAggregator, log, dataService, dataModel)
         {
             Initialize();
         }
