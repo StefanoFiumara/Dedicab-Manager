@@ -19,6 +19,8 @@ namespace DedicabUtility.Client.Models
         public string Group => _smFile.Group;
         public string Directory => _smFile.Directory;
         
+        public string DisplayBpm { get; }
+
         public BitmapImage SongBanner => _bannerImage.Value;
 
         public Dictionary<SongDifficulty, int> DifficultySingles { get; set; }
@@ -28,7 +30,27 @@ namespace DedicabUtility.Client.Models
         {
             _smFile = smFile;
             _bannerImage = new Lazy<BitmapImage>(ExtractBannerImage);
-            ExtractDifficultyRatings();
+
+            DifficultySingles = new Dictionary<SongDifficulty, int>
+            {
+                [SongDifficulty.Beginner] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
+                [SongDifficulty.Easy] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Easy)?.DifficultyRating ?? -1,
+                [SongDifficulty.Medium] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Medium)?.DifficultyRating ?? -1,
+                [SongDifficulty.Hard] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Hard)?.DifficultyRating ?? -1,
+                [SongDifficulty.Challenge] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Challenge)?.DifficultyRating ?? -1
+            };
+
+
+            DifficultyDoubles = new Dictionary<SongDifficulty, int>
+            {
+                [SongDifficulty.Beginner] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
+                [SongDifficulty.Easy] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Easy)?.DifficultyRating ?? -1,
+                [SongDifficulty.Medium] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Medium)?.DifficultyRating ?? -1,
+                [SongDifficulty.Hard] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Hard)?.DifficultyRating ?? -1,
+                [SongDifficulty.Challenge] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Challenge)?.DifficultyRating ?? -1
+            };
+
+            DisplayBpm = $"BPM: {_smFile.DisplayBpm}";
         }
         
         private BitmapImage ExtractBannerImage()
@@ -60,28 +82,6 @@ namespace DedicabUtility.Client.Models
             }
 
             return image;
-        }
-        
-        private void ExtractDifficultyRatings()
-        {
-            DifficultySingles = new Dictionary<SongDifficulty, int>
-            {
-                [SongDifficulty.Beginner] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
-                [SongDifficulty.Easy] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Easy)?.DifficultyRating ?? -1,
-                [SongDifficulty.Medium] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Medium)?.DifficultyRating ?? -1,
-                [SongDifficulty.Hard] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Hard)?.DifficultyRating ?? -1,
-                [SongDifficulty.Challenge] = _smFile.ChartMetadata.GetSteps(PlayStyle.Single, SongDifficulty.Challenge)?.DifficultyRating ?? -1
-            };
-
-
-            DifficultyDoubles = new Dictionary<SongDifficulty, int>
-            {
-                [SongDifficulty.Beginner] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Beginner)?.DifficultyRating ?? -1,
-                [SongDifficulty.Easy] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Easy)?.DifficultyRating ?? -1,
-                [SongDifficulty.Medium] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Medium)?.DifficultyRating ?? -1,
-                [SongDifficulty.Hard] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Hard)?.DifficultyRating ?? -1,
-                [SongDifficulty.Challenge] = _smFile.ChartMetadata.GetSteps(PlayStyle.Double, SongDifficulty.Challenge)?.DifficultyRating ?? -1
-            };
         }
     }
 }
