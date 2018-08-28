@@ -149,7 +149,7 @@
                        Width="175"  Height="69" />
 
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
-
+                <TextBlock TextAlignment="Center" Text="{Binding SongData.DisplayBpm}" Margin="5,0" />
                 <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>
             </StackPanel>
             <Border Background="#77666666" Visibility="{Binding PickState, Converter={StaticResource BannedConverter}}">
