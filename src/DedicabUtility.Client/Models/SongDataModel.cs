@@ -13,12 +13,13 @@ namespace DedicabUtility.Client.Models
         private static readonly Uri DefaultBannerUri = new Uri(DefaultBannerPath);
 
         private readonly SmFile _smFile;
+        private readonly Lazy<BitmapImage> _bannerImage;
 
         public string SongName => _smFile.SongTitle;
         public string Group => _smFile.Group;
         public string Directory => _smFile.Directory;
-
-        public BitmapImage SongBanner { get; set; }
+        
+        public BitmapImage SongBanner => _bannerImage.Value;
 
         public Dictionary<SongDifficulty, int> DifficultySingles { get; set; }
         public Dictionary<SongDifficulty, int> DifficultyDoubles { get; set; }
@@ -26,8 +27,7 @@ namespace DedicabUtility.Client.Models
         public SongDataModel(SmFile smFile)
         {
             _smFile = smFile;
-
-            SongBanner = ExtractBannerImage();
+            _bannerImage = new Lazy<BitmapImage>(ExtractBannerImage);
             ExtractDifficultyRatings();
         }
         

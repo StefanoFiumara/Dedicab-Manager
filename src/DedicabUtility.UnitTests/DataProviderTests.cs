@@ -53,11 +53,15 @@ namespace DedicabUtility.UnitTests
         public void VerifyNewSongDataIsAdded()
         {
             var stepmaniaRoot = Path.Combine(Directory.GetCurrentDirectory(), "VerifyNewSongDataIsAdded");
-            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot, "NewSongs", "NewPack"), "*.sm",
+
+
+            var newSongsDir = Path.Combine(stepmaniaRoot, "NewSongs", "NewPack");
+            var newSongs = Directory.EnumerateFiles(newSongsDir, "*.sm",
                 SearchOption.AllDirectories);
 
-            var newSongGroup = DataService.AddNewSongs(stepmaniaRoot, newSongs, @"NewPack", EmptyProgressNotifier);
-            Assert.AreEqual(4, newSongGroup.Songs.Count());
+            var newSongGroup = DataService.AddNewSongs(stepmaniaRoot, newSongs, newSongsDir, EmptyProgressNotifier);
+
+            Assert.AreEqual(4, newSongGroup.Songs.Count);
             Assert.AreEqual("NewPack", newSongGroup.Name);
             
             var allGroups = DataService.ScanSongData(stepmaniaRoot, EmptyProgressNotifier);
@@ -71,18 +75,20 @@ namespace DedicabUtility.UnitTests
         public void VerifyNewSongDataCopiesAdditionalFiles()
         {
             var stepmaniaRoot = Path.Combine(Directory.GetCurrentDirectory(), "VerifyNewSongDataCopiesAdditionalFiles");
-            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot, "NewSongs", "NewPack"), "*.sm",
+
+            var newSongsDir = Path.Combine(stepmaniaRoot, "NewSongs", "NewPack");
+            var newSongs = Directory.EnumerateFiles(newSongsDir, "*.sm",
                 SearchOption.AllDirectories);
 
-            var newSongGroup = DataService.AddNewSongs(stepmaniaRoot, newSongs, @"NewPack", EmptyProgressNotifier);
-            Assert.AreEqual(4, newSongGroup.Songs.Count());
+            var newSongGroup = DataService.AddNewSongs(stepmaniaRoot, newSongs, newSongsDir, EmptyProgressNotifier);
+            Assert.AreEqual(4, newSongGroup.Songs.Count);
             Assert.AreEqual("NewPack", newSongGroup.Name);
 
             var newPackDirectory = new DirectoryInfo(Path.Combine(stepmaniaRoot, "Songs", "NewPack"));
             foreach (var newSongDirectory in newPackDirectory.EnumerateDirectories())
             {
-                //Expect 5 files in each directory for the .sm backup created by the lights builder.
-                Assert.AreEqual(5, newSongDirectory.EnumerateFiles().Count());
+                //Expect at least 4 files in each directory, .sm, background, banner, song 
+                Assert.IsTrue(newSongDirectory.EnumerateFiles().Count() >= 4);
             }
         }
 
@@ -105,12 +111,13 @@ namespace DedicabUtility.UnitTests
         {
             var stepmaniaRoot = Path.Combine(Directory.GetCurrentDirectory(), "VerifyAddSongDataDoesNotCopySscFile");
 
-            var newSongs = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot, "NewSongs", "NewPack"), "*.sm", SearchOption.AllDirectories);
+            var newSongsDir = Path.Combine(stepmaniaRoot, "NewSongs", "NewPack");
+            var newSongs = Directory.EnumerateFiles(newSongsDir, "*.sm", SearchOption.AllDirectories);
             
 
-            DataService.AddNewSongs(stepmaniaRoot, newSongs, @"SSC", EmptyProgressNotifier);
+            DataService.AddNewSongs(stepmaniaRoot, newSongs, newSongsDir, EmptyProgressNotifier);
 
-            var sscFiles = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot, @"Songs", @"SSC"), "*.ssc", SearchOption.AllDirectories);
+            var sscFiles = Directory.EnumerateFiles(Path.Combine(stepmaniaRoot, @"Songs", @"NewPack"), "*.ssc", SearchOption.AllDirectories);
 
             Assert.IsFalse(sscFiles.Any());
         }
