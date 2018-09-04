@@ -10,44 +10,45 @@
         mc:Ignorable="d"
         Background="{StaticResource BackgroundColor}"
         Title="Fano's Dedicab Utility"
-        ResizeMode="CanMinimize"
-        Width="1920" Height="1080" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize" SizeToContent="WidthAndHeight"
+        Width="1280" Height="720" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
-    <Grid>
-        <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
+    <Viewbox Stretch="Uniform">
+        <Grid Width="1920" Height="1080">
+            <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
                 <DockPanel Grid.Row="0">
                     <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Image Source="Images/itg.png" Height="100" />
-                            <TextBlock Style="{StaticResource LabelStyle}" Text="Dedicab Utility" VerticalAlignment="Center" FontSize="72" Margin="20,0"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-                            <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Image Source="Images/itg.png" Height="100" />
+                                <TextBlock Style="{StaticResource LabelStyle}" Text="Dedicab Utility" VerticalAlignment="Center" FontSize="72" Margin="20,0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                                <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
                                     <Run Text="Stepmania Install Location: " />
                                     <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
                                         <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
                                     </Hyperlink>
                                 </TextBlock>
-                            <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
+                                <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
                                         Command="{Binding BrowseForInstallLocationCommand}"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
+                    </Border>
                 </DockPanel>
 
-            <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
-                <navigation:NavigationControl DataContext="{Binding}" />
-            </controls:BusyIndicator>
+                <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
+                    <navigation:NavigationControl DataContext="{Binding}" />
+                </controls:BusyIndicator>
+            </Grid>
         </Grid>
-    </Grid>
-    
+    </Viewbox>
 </Window>
