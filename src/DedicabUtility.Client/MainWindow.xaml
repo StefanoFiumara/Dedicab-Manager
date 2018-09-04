@@ -11,7 +11,7 @@
         Background="{StaticResource BackgroundColor}"
         Title="Dedicab Manager"
         ResizeMode="CanResize" SizeToContent="WidthAndHeight"
-        Width="1280" Height="720" WindowStartupLocation="CenterScreen"
+        Width="1920" Height="1080" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
     <Viewbox Stretch="Uniform">
