@@ -4,19 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DedicabUtility.Client.Modules.SongOverview"
-             mc:Ignorable="d" d:DesignWidth="980" d:DesignHeight="730"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Name="SongOverviewRoot"
              d:DataContext="{d:DesignInstance local:SongOverviewViewModel}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Border Style="{StaticResource PanelBorderStyle}">
+        <Border Style="{StaticResource SectionBorderStyle}">
             <StackPanel Orientation="Vertical">
                 <DockPanel>
                     <TextBlock Text="Song Groups" Style="{StaticResource LabelStyle}" VerticalAlignment="Center"/>
@@ -30,19 +30,19 @@
                     
                     
                 </DockPanel>
-                <ListBox Margin="5" Height="450" 
+                <ListBox Margin="5" Height="1040" 
                          ItemsSource="{Binding DataModel.SongGroups}"
                          SelectedItem="{Binding Model.SelectedSongGroup}" />
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource PanelBorderStyle}">
+        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource SectionBorderStyle}">
             <StackPanel Orientation="Vertical">
                 <DockPanel>
-                    <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" />
+                    <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" Margin="10" VerticalAlignment="Center" />
                 </DockPanel>
                 
-                <ListBox Margin="5" Height="450" 
+                <ListBox Margin="5" Height="1040" 
                          ItemsSource="{Binding Model.SelectedSongGroup.Songs}"
                          SelectedItem="{Binding Model.SelectedSong}">
                     <ListBox.ItemContainerStyle>
@@ -54,11 +54,10 @@
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource PanelBorderStyle}" Margin="10,0,15,5">
-            <StackPanel Orientation="Vertical">
-                <ContentControl Content="{Binding Model.SelectedSong}" Visibility="{Binding Model.SelectedSong, Converter={StaticResource NullToVisibilityConverter}}"
-                                ContentTemplate="{StaticResource SongDetailTemplate}" />
-            </StackPanel>
+        <Border Grid.Row="0" Grid.Column="2" Height="300" VerticalAlignment="Top"
+                Style="{StaticResource SectionBorderStyle}">
+            <ContentControl Content="{Binding Model.SelectedSong}" Visibility="{Binding Model.SelectedSong, Converter={StaticResource NullToVisibilityConverter}}"
+                            ContentTemplate="{StaticResource SongDetailTemplate}" />
         </Border>
     </Grid>
 </UserControl>

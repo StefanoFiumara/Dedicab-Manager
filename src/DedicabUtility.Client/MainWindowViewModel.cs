@@ -24,27 +24,12 @@ namespace DedicabUtility.Client
 {
     public class MainWindowViewModel : DedicabUtilityBaseViewModel
     {
-        public ICommand SongOverviewNavigationCommand { get; set; }
-        public ICommand TournamentManagementNavigationCommand { get; set; }
         public ICommand OpenInstallLocationCommand { get; set; }
         public ICommand BrowseForInstallLocationCommand { get; set; }
         public ICommand ClosePopupCommand { get; set; }
-
-        private BaseViewModel _selectedViewModel;
-        public BaseViewModel SelectedViewModel
-        {
-            get => _selectedViewModel;
-            set
-            {
-                if (_selectedViewModel == value) return;
-                _selectedViewModel = value;
-                Model.LogoVisibility = _selectedViewModel == null ? Visibility.Visible : Visibility.Collapsed;
-                OnPropertyChanged();
-            }
-        }
-
-        private SongOverviewViewModel SongOverview { get; set; }
-        private TournamentSetViewModel TournamentSet { get; set; }
+        
+        public SongOverviewViewModel SongOverview { get; set; }
+        public TournamentSetViewModel TournamentSet { get; set; }
 
         private MainWindowModel _model;
         public MainWindowModel Model
@@ -93,20 +78,6 @@ namespace DedicabUtility.Client
 
         private void InitializeCommands()
         {
-            SongOverviewNavigationCommand = new RelayCommand(() =>
-                {
-                    SelectedViewModel = SongOverview;
-                    EventAggregator.Publish<SongOverviewNavigationEvent>();
-                },
-                () => string.IsNullOrEmpty(Model.StepmaniaInstallLocation) == false);
-
-            TournamentManagementNavigationCommand = new RelayCommand(() =>
-                {
-                    SelectedViewModel = TournamentSet;
-                    EventAggregator.Publish<TournamentManagerNavigationEvent>();
-                },
-                () => string.IsNullOrEmpty(Model.StepmaniaInstallLocation) == false);
-
             ClosePopupCommand = new RelayCommand(() => Model.ErrorPopupModel.Visibility = Visibility.Hidden);
 
             OpenInstallLocationCommand = new RelayCommand(OpenInstallLocation);

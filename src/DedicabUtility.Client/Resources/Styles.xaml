@@ -31,10 +31,6 @@
         </Style.Triggers>
     </Style>
     
-    <Style x:Key="NavigationButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
-        <Setter Property="Height" Value="120" />
-    </Style>
-    
     <Style x:Key="NegativeButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Background" Value="{StaticResource NegativeColor1}"/>
         <Style.Triggers>
@@ -70,14 +66,22 @@
     <Style x:Key="PanelBorderStyle" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{StaticResource PanelColor}" />
         <Setter Property="Padding" Value="10,10,10,10" />
+        <Setter Property="Margin" Value="5,5,10,10" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="5" Color="#909090" />
+                <DropShadowEffect BlurRadius="2" Color="#909090" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="10,10,15,15" />
     </Style>
     
+    <Style x:Key="SectionBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource PanelColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource BackgroundColor}" />
+        <Setter Property="Padding" Value="10,10,10,10" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
     <Style x:Key="TextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Margin" Value="5" />
         <Setter Property="Foreground" Value="{StaticResource TextColor}" />

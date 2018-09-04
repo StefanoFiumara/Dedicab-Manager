@@ -36,19 +36,7 @@ namespace DedicabUtility.Client
                 OnPropertyChanged();
             }
         }
-
-        private Visibility _logoVisibility;
-        public Visibility LogoVisibility
-        {
-            get => _logoVisibility;
-            set
-            {
-                if (_logoVisibility == value) return;
-                _logoVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

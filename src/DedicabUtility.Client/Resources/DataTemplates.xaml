@@ -128,8 +128,8 @@
     <DataTemplate x:Key="SongDetailTemplate" DataType="{x:Type models:SongDataModel}">
         <StackPanel Orientation="Vertical">
             <Image Source="{Binding SongBanner}"
-                   Width="209" Height="82" />
-            <TextBlock Text="{Binding Group}" Margin="5,0" FontWeight="Bold"/>
+                   Width="418" Height="164" />
+            <TextBlock Text="{Binding Group}" Margin="5,0" FontWeight="Bold" TextAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock TextAlignment="Center" Text="{Binding SongName}" Margin="5,0" />
                 <TextBlock Text="-"/>
@@ -167,6 +167,7 @@
                 <Image Source="{Binding SongData.SongBanner}"
                        Width="175"  Height="69" />
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
+                <TextBlock TextAlignment="Center" Text="{Binding SongData.DisplayBpm}" Margin="5,0" />
                 <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>
             </StackPanel>
         </Grid>
