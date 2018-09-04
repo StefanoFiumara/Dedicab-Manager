@@ -9,55 +9,44 @@
              d:DataContext="{d:DesignInstance local:SongOverviewViewModel}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Border Style="{StaticResource SectionBorderStyle}">
-            <StackPanel Orientation="Vertical">
-                <DockPanel>
-                    <TextBlock Text="Song Groups" Style="{StaticResource LabelStyle}" VerticalAlignment="Center"/>
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button HorizontalAlignment="Right" Style="{StaticResource ButtonStyle}" Content="Add Song Pack" Command="{Binding AddSongsCommand}"/>
-                        <Button HorizontalAlignment="Right" Style="{StaticResource NegativeButtonStyle}" 
-                                Content="Remove Song Pack"
-                                Command="{Binding RemoveSongPackCommand}"
-                                CommandParameter="{Binding Model.SelectedSongGroup}"/>
-                    </StackPanel>
-                    
-                    
-                </DockPanel>
-                <ListBox Margin="5" Height="1040" 
-                         ItemsSource="{Binding DataModel.SongGroups}"
-                         SelectedItem="{Binding Model.SelectedSongGroup}" />
-            </StackPanel>
-        </Border>
 
-        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource SectionBorderStyle}">
-            <StackPanel Orientation="Vertical">
-                <DockPanel>
-                    <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" Margin="10" VerticalAlignment="Center" />
-                </DockPanel>
-                
-                <ListBox Margin="5" Height="1040" 
-                         ItemsSource="{Binding Model.SelectedSongGroup.Songs}"
-                         SelectedItem="{Binding Model.SelectedSong}">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </StackPanel>
-        </Border>
+        <DockPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
+            <TextBlock Text="Song Groups" Style="{StaticResource LabelStyle}" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+            <Button Style="{StaticResource NegativeButtonStyle}" HorizontalAlignment="Right" DockPanel.Dock="Right"
+                    Content="Remove Song Pack" 
+                    Command="{Binding RemoveSongPackCommand}"
+                    CommandParameter="{Binding Model.SelectedSongGroup}"/>
+            <Button Content="Add Song Pack"
+                    Style="{StaticResource ButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right" 
+                    Command="{Binding AddSongsCommand}" />
+        </DockPanel>
+        <ListBox Margin="5" Height="1040" Grid.Row="1" Grid.Column="0"
+             ItemsSource="{Binding DataModel.SongGroups}"
+             SelectedItem="{Binding Model.SelectedSongGroup}" />
 
-        <Border Grid.Row="0" Grid.Column="2" Height="300" VerticalAlignment="Top"
-                Style="{StaticResource SectionBorderStyle}">
-            <ContentControl Content="{Binding Model.SelectedSong}" Visibility="{Binding Model.SelectedSong, Converter={StaticResource NullToVisibilityConverter}}"
-                            ContentTemplate="{StaticResource SongDetailTemplate}" />
-        </Border>
+        <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" Margin="10" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
+        
+        <ListBox Margin="5" Height="1040"  Grid.Row="1" Grid.Column="1"
+                 ItemsSource="{Binding Model.SelectedSongGroup.Songs}"
+                 SelectedItem="{Binding Model.SelectedSong}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <ContentControl Grid.Row="1" Grid.Column="2" Height="300" VerticalAlignment="Top"
+                        Content="{Binding Model.SelectedSong}" Visibility="{Binding Model.SelectedSong, Converter={StaticResource NullToVisibilityConverter}}"
+                        ContentTemplate="{StaticResource SongDetailTemplate}" />
+    
     </Grid>
 </UserControl>

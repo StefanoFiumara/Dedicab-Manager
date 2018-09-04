@@ -9,7 +9,7 @@
         xmlns:controls="clr-namespace:DedicabUtility.Client.Controls"
         mc:Ignorable="d"
         Background="{StaticResource BackgroundColor}"
-        Title="Fano's Dedicab Utility"
+        Title="Dedicab Manager"
         ResizeMode="CanResize" SizeToContent="WidthAndHeight"
         Width="1280" Height="720" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
@@ -29,24 +29,28 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <Image Source="Images/itg.png" Height="100" />
-                                <TextBlock Style="{StaticResource LabelStyle}" Text="Dedicab Utility" VerticalAlignment="Center" FontSize="72" Margin="20,0"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-                                <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
-                                    <Run Text="Stepmania Install Location: " />
-                                    <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
-                                        <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
-                                    </Hyperlink>
-                                </TextBlock>
-                                <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
-                                        Command="{Binding BrowseForInstallLocationCommand}"/>
+                                <TextBlock Style="{StaticResource LabelStyle}" Text="Fano's Dedicab" VerticalAlignment="Center" FontSize="72" Margin="20,0"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
+                    <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                            <Run Text="Stepmania Install Location: " />
+                            <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
+                                <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
+                            </Hyperlink>
+                        </TextBlock>
+                        <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
+                                Command="{Binding BrowseForInstallLocationCommand}"/>
+                    </StackPanel>
+                        </Border>
                 </DockPanel>
 
                 <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
-                    <navigation:NavigationControl DataContext="{Binding}" />
+                    <Border Style="{StaticResource PanelBorderStyle}">
+                        <navigation:NavigationControl DataContext="{Binding}" />
+                    </Border>
                 </controls:BusyIndicator>
             </Grid>
         </Grid>
