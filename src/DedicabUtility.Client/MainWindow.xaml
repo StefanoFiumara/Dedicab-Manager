@@ -22,8 +22,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:BusyIndicator Grid.Row="0" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
-                <DockPanel>
+            
+                <DockPanel Grid.Row="0">
                     <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -44,9 +44,10 @@
                         
                     </Border>
                 </DockPanel>
-            </controls:BusyIndicator>
 
-            <navigation:NavigationControl Grid.Row="1" DataContext="{Binding}" />
+            <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
+                <navigation:NavigationControl DataContext="{Binding}" />
+            </controls:BusyIndicator>
         </Grid>
     </Grid>
     
