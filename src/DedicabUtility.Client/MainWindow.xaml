@@ -34,17 +34,24 @@
                         </StackPanel>
                     </Border>
                     <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
-                            <Run Text="Stepmania Install Location: " />
-                            <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
-                                <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
-                            </Hyperlink>
-                        </TextBlock>
-                        <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
-                                Command="{Binding BrowseForInstallLocationCommand}"/>
-                    </StackPanel>
-                        </Border>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                                    <Run Text="Stepmania Install Location: " />
+                                    <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
+                                        <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                                <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
+                                        Command="{Binding BrowseForInstallLocationCommand}"/>
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource LabelStyle}" HorizontalAlignment="Right">
+                                <Hyperlink Command="{Binding ViewLogCommand}" Foreground="{StaticResource NegativeColor2}">
+                                    <TextBlock Text="View Logs" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
                 </DockPanel>
 
                 <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">

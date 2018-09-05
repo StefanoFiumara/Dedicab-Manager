@@ -27,7 +27,8 @@ namespace DedicabUtility.Client
         public ICommand OpenInstallLocationCommand { get; set; }
         public ICommand BrowseForInstallLocationCommand { get; set; }
         public ICommand ClosePopupCommand { get; set; }
-        
+        public ICommand ViewLogCommand { get; set; }
+
         public SongOverviewViewModel SongOverview { get; set; }
         public TournamentSetViewModel TournamentSet { get; set; }
 
@@ -82,6 +83,12 @@ namespace DedicabUtility.Client
 
             OpenInstallLocationCommand = new RelayCommand(OpenInstallLocation);
             BrowseForInstallLocationCommand = new RelayCommand(BrowseForInstallLocation);
+            ViewLogCommand = new RelayCommand(ViewLog);
+        }
+
+        private void ViewLog()
+        {
+            Process.Start("DedicabUtility.log");
         }
 
         private void VerifyStepmaniaInstallLocation()
