@@ -4,7 +4,7 @@
     <SolidColorBrush x:Key="PanelColor" Color="#F2F2F2" />
     <SolidColorBrush x:Key="TextColor" Color="#4A4A4A" />
 
-    <SolidColorBrush x:Key="HighlightColor" Color="#dddddd" />
+    <SolidColorBrush x:Key="InactiveColor" Color="#999999" />
 
     <SolidColorBrush x:Key="ThemeColor1" Color="#3D77F9" />
     <SolidColorBrush x:Key="ThemeColor2" Color="#3B59F9" />

@@ -28,13 +28,13 @@
                     Style="{StaticResource ButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right" 
                     Command="{Binding AddSongsCommand}" />
         </DockPanel>
-        <ListBox Margin="5" Height="1040" Grid.Row="1" Grid.Column="0"
+        <ListBox Margin="5" Grid.Row="1" Grid.Column="0"
              ItemsSource="{Binding DataModel.SongGroups}"
              SelectedItem="{Binding Model.SelectedSongGroup}" />
 
         <TextBlock Text="Songs" Style="{StaticResource LabelStyle}" Margin="10" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
         
-        <ListBox Margin="5" Height="1040"  Grid.Row="1" Grid.Column="1"
+        <ListBox Margin="5" Grid.Row="1" Grid.Column="1"
                  ItemsSource="{Binding Model.SelectedSongGroup.Songs}"
                  SelectedItem="{Binding Model.SelectedSong}">
             <ListBox.ItemContainerStyle>
