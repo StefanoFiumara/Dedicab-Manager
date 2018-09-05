@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\ScaleToWindowSizeBehavior.cs" />
     <Compile Include="Converters\MessageIconToImageConverter.cs" />
     <Compile Include="Converters\PickStateToVisibilityConverter.cs" />
     <Compile Include="Core\AppSettings.cs" />

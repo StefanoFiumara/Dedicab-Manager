@@ -83,12 +83,7 @@ namespace DedicabUtility.Client
 
             OpenInstallLocationCommand = new RelayCommand(OpenInstallLocation);
             BrowseForInstallLocationCommand = new RelayCommand(BrowseForInstallLocation);
-            ViewLogCommand = new RelayCommand(ViewLog);
-        }
-
-        private void ViewLog()
-        {
-            Process.Start("DedicabUtility.log");
+            ViewLogCommand = new RelayCommand(() => Process.Start("DedicabUtility.log"));
         }
 
         private void VerifyStepmaniaInstallLocation()
