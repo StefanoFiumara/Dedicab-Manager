@@ -6,39 +6,37 @@
              xmlns:client="clr-namespace:DedicabUtility.Client"
              d:DataContext="{d:DesignInstance client:MainWindowViewModel}"
              mc:Ignorable="d">
-    <Border Style="{StaticResource PanelBorderStyle}">
-        <TabControl Margin="0" BorderThickness="0" TabStripPlacement="Left" Background="Transparent">
-            <TabControl.Resources>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Grid Name="Panel">
-                                    <ContentPresenter x:Name="ContentSite"
+    <TabControl Margin="0" BorderThickness="0" TabStripPlacement="Left" Background="Transparent">
+        <TabControl.Resources>
+            <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Grid Name="Panel">
+                                <ContentPresenter x:Name="ContentSite"
                                                       VerticalAlignment="Center"
                                                       HorizontalAlignment="Center"
                                                       ContentSource="Header"
                                                       Margin="10,10">
-                                        <ContentPresenter.Content>
-                                            <TextBlock Text="{TemplateBinding Header}" Style="{StaticResource LabelStyle}" FontSize="18" />
-                                        </ContentPresenter.Content>
-                                    </ContentPresenter>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="{StaticResource HighlightColor}" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Panel" Property="Background" Value="{StaticResource PanelColor}" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabItem Header="Song Management" Content="{Binding SongOverview}" />
-            <TabItem Header="Card Draw Match" Content="{Binding TournamentSet}"/>
-        </TabControl>
-    </Border>
+                                    <ContentPresenter.Content>
+                                        <TextBlock x:Name="HeaderText" Text="{TemplateBinding Header}" Style="{StaticResource LabelStyle}" FontSize="18" />
+                                    </ContentPresenter.Content>
+                                </ContentPresenter>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="HeaderText" Property="Foreground" Value="{StaticResource TextColor}" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="HeaderText" Property="Foreground" Value="{StaticResource InactiveColor}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.Resources>
+        <TabItem Header="Song Management" Content="{Binding SongOverview}" />
+        <TabItem Header="Card Draw Match" Content="{Binding TournamentSet}"/>
+    </TabControl>
 </UserControl>
