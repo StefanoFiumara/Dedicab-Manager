@@ -142,11 +142,12 @@
 
     <converters:PickStateToVisibilityConverter x:Key="PickedConverter" VisibleState="Picked"/>
     <converters:PickStateToVisibilityConverter x:Key="BannedConverter" VisibleState="Banned"/>
+
     <DataTemplate x:Key="TournamentSetTemplate" DataType="{x:Type models:TournamentSongWrapper}">
         <Grid>
             <StackPanel Orientation="Vertical" Margin="5">
                 <Image Source="{Binding SongData.SongBanner}"
-                       Width="175"  Height="69" />
+                       Width="234"  Height="92" />
 
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.DisplayBpm}" Margin="5,0" />
@@ -165,7 +166,7 @@
         <Grid>
             <StackPanel Orientation="Vertical" Margin="5">
                 <Image Source="{Binding SongData.SongBanner}"
-                       Width="175"  Height="69" />
+                       Width="293"  Height="115" />
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.SongName}" Margin="5,0" HorizontalAlignment="Center"/>
                 <TextBlock TextAlignment="Center" Text="{Binding SongData.DisplayBpm}" Margin="5,0" />
                 <ContentControl HorizontalAlignment="Center" Content="{Binding SongData}" ContentTemplate="{StaticResource SongDifficultiesSinglesTemplate}" Margin="0,5"/>

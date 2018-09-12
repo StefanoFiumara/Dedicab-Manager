@@ -4,37 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DedicabUtility.Client.Modules.TournamentSet"
-             mc:Ignorable="d"
+             mc:Ignorable="d" d:DesignHeight="1080" d:DesignWidth="1920"
              d:DataContext="{d:DesignInstance local:TournamentSetViewModel}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Style="{StaticResource PanelBorderStyle}" Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Select a song pack" Style="{StaticResource LabelStyle}" />
-                    <ComboBox ItemsSource="{Binding DataModel.SongGroups}" Width="200" Margin="5"
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Select a song pack" Style="{StaticResource LabelStyle}" />
+                <ComboBox ItemsSource="{Binding DataModel.SongGroups}" Width="200" Margin="5"
                               SelectedItem="{Binding SelectedSongGroup}" HorizontalAlignment="Left" />
-                </StackPanel>
-
-                <Button Command="{Binding GenerateSongSetCommand}" HorizontalAlignment="Left"
+            </StackPanel>
+            <Button Command="{Binding GenerateSongSetCommand}" HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         Content="Generate Song Set"
                         Style="{StaticResource ButtonStyle}"/>
-                
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Style="{StaticResource LabelStyle}" Text="Minimum Difficulty:" VerticalAlignment="Bottom" />
-                    <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MinDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
-                    <TextBlock Style="{StaticResource LabelStyle}" Text="Maximum Difficulty:" VerticalAlignment="Bottom" />
-                    <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MaxDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
-                </StackPanel>
-
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Style="{StaticResource LabelStyle}" Text="Minimum Difficulty:" VerticalAlignment="Bottom" />
+                <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MinDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
+                <TextBlock Style="{StaticResource LabelStyle}" Text="Maximum Difficulty:" VerticalAlignment="Bottom" />
+                <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MaxDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
             </StackPanel>
-        </Border>
-        <Border Style="{StaticResource PanelBorderStyle}" Grid.Row="1">
-            <Grid>
+        </StackPanel>
+        
+        
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -43,7 +39,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid Grid.ColumnSpan="2" Grid.Row="0">
+                <Grid Grid.Row="0" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -74,7 +70,7 @@
 
                 <ListBox ItemsSource="{Binding SetSongs}" ItemTemplate="{StaticResource TournamentSetTemplate}"
                          Grid.Column="0" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Center"
+                         Background="Transparent" BorderThickness="0" HorizontalAlignment="Left"
                          SelectedItem="{Binding SelectedSong}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -83,8 +79,8 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
 
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <DockPanel Grid.Column="1" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Left">
                         <Button Command="{Binding PickSongCommand}" Style="{StaticResource PositiveButtonStyle}"
                                 Content="Pick Song" />
                         <Button Command="{Binding BanSongCommand}" Style="{StaticResource NegativeButtonStyle}"
@@ -101,9 +97,9 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                </StackPanel>
+                </DockPanel>
             </Grid>
 
-        </Border>
+        
     </Grid>
 </UserControl>
