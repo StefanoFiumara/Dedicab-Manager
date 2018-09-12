@@ -12,11 +12,11 @@
         Background="{StaticResource BackgroundColor}"
         Title="Dedicab Manager"
         ResizeMode="CanResize"
-        Width="1280" Height="720" WindowStartupLocation="CenterScreen"
+        Width="1920" Height="1080" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
     
-        <Grid behaviors:ScaleToWindowSizeBehavior.Resolution="1280,720"
+        <Grid behaviors:ScaleToWindowSizeBehavior.Resolution="1920,1080"
               behaviors:ScaleToWindowSizeBehavior.ParentWindow="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
             <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
 
