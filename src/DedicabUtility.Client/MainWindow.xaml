@@ -7,50 +7,60 @@
         xmlns:navigation="clr-namespace:DedicabUtility.Client.Modules.Navigation"
         xmlns:errorPopup="clr-namespace:DedicabUtility.Client.Modules.ErrorPopup"
         xmlns:controls="clr-namespace:DedicabUtility.Client.Controls"
+        xmlns:behaviors="clr-namespace:DedicabUtility.Client.Behaviors"
         mc:Ignorable="d"
         Background="{StaticResource BackgroundColor}"
         Title="Dedicab Manager"
-        ResizeMode="CanMinimize"
-        Width="1920" Height="1080" WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Width="1280" Height="720" WindowStartupLocation="CenterScreen"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource CompositionRoot}}"
         d:DataContext="{d:DesignInstance local:MainWindowViewModel}">
-    <Grid>
-        <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
+    
+        <Grid behaviors:ScaleToWindowSizeBehavior.Resolution="1280,720"
+              behaviors:ScaleToWindowSizeBehavior.ParentWindow="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+            <errorPopup:ErrorPopup Panel.ZIndex="1000" Grid.RowSpan="2" Visibility="{Binding Model.ErrorPopupModel.Visibility}" d:IsHidden="true" />
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <DockPanel Grid.Row="0">
-                <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
-                    <StackPanel Orientation="Vertical">
+                <DockPanel Grid.Row="0">
+                    <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Image Source="Images/itg.png" Height="100" />
-                            <TextBlock Style="{StaticResource LabelStyle}" Text="Fano's Dedicab" VerticalAlignment="Center" FontSize="72" Margin="20,0"/>
+                            <Image Source="Images/itg.png" Height="75" />
+                            <TextBlock Style="{StaticResource LabelStyle}" Text="Fano's Dedicab Utility" VerticalAlignment="Center" FontSize="42" Margin="20,0"/>
                         </StackPanel>
-                    </StackPanel>
-                </Border>
-                <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
-                            <Run Text="Stepmania Install Location: " />
-                            <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
-                                <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
+                    </Border>
+
+                    <Border Style="{StaticResource PanelBorderStyle}" DockPanel.Dock="Top">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                                <Run Text="Stepmania Install Location: " />
+                                <Hyperlink Command="{Binding OpenInstallLocationCommand}" Foreground="{StaticResource ThemeColor4}">
+                                    <TextBlock  Text="{Binding Model.StepmaniaInstallLocation}" />
+                                </Hyperlink>
+                            </TextBlock>
+                                <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
+                                    Command="{Binding BrowseForInstallLocationCommand}"/>
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource LabelStyle}" VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding ViewLogCommand}" Foreground="{StaticResource NegativeColor2}">
+                                <TextBlock Text="View Logs" />
                             </Hyperlink>
                         </TextBlock>
-                        <Button Style="{StaticResource ButtonStyle}" Content="Browse..." IsEnabled="{Binding IsBusy, Converter={StaticResource NegateConverter}}"
-                                Command="{Binding BrowseForInstallLocationCommand}"/>
-                    </StackPanel>
-                </Border>
-            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                </DockPanel>
 
-            <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
-                <Border Style="{StaticResource PanelBorderStyle}" Padding="0">
-                    <navigation:NavigationControl DataContext="{Binding}" />
-                </Border>
-            </controls:BusyIndicator>
+                <controls:BusyIndicator Grid.Row="1" IsBusy="{Binding IsBusy, Mode=TwoWay}" BusyText="{Binding BusyText}">
+                    <Border Style="{StaticResource PanelBorderStyle}" Padding="0">
+                        <navigation:NavigationControl DataContext="{Binding}" />
+                    </Border>
+                </controls:BusyIndicator>
+            </Grid>
         </Grid>
-    </Grid>
+    
 </Window>
