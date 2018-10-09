@@ -20,6 +20,7 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         private int _turnIndicator;
         private int _maxDifficulty;
         private int _minDifficulty;
+        private bool _isFinalsRound;
 
         public TournamentSetViewModel(IEventAggregator eventAggregator, ILogger log, DedicabDataService dataService, DedicabDataModel dataModel) 
             : base(eventAggregator, log, dataService, dataModel)
@@ -79,6 +80,16 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             }
         }
 
+        public bool IsFinalsRound
+        {
+            get => _isFinalsRound;
+            set
+            {
+                _isFinalsRound = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<TournamentSongWrapper> SetSongs { get; set; }
         public ObservableCollection<TournamentSongWrapper> PickedSongs { get; set; }
 
@@ -104,16 +115,14 @@ namespace DedicabUtility.Client.Modules.TournamentSet
 
         private bool CanBanSong()
         {
-            return  SelectedSong?.PickState == PickState.None && 
-                    TurnIndicator != 2 &&
-                    TurnIndicator != 3;
+            return SelectedSong?.PickState == PickState.None &&
+                   new[] {0,1,4,5,8,9}.Contains(TurnIndicator);
         }
 
         private bool CanPickSong()
         {
             return  SelectedSong?.PickState == PickState.None && 
-                    PickedSongs.Count < 3 && 
-                    (TurnIndicator == 2 || TurnIndicator == 3);
+                    new[] {2,3,6,7}.Contains(TurnIndicator);
         }
 
         private void OnResetPicks()
@@ -131,7 +140,9 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             SelectedSong.PickState = PickState.Picked;
             PickedSongs.Add(SelectedSong);
 
-            if (PickedSongs.Count == 3)
+            int songsToPick = IsFinalsRound ? 5 : 3;
+
+            if (PickedSongs.Count == songsToPick)
             {
                 foreach (var song in SetSongs.Where(s => s.PickState == PickState.None))
                 {
@@ -145,13 +156,13 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         private void OnBanSong()
         {
             SelectedSong.PickState = PickState.Banned;
-            if (SetSongs.Count(s => s.PickState == PickState.Banned) == 4)
+            var finalTurn = IsFinalsRound ? 5 : 9;
+
+            if(TurnIndicator == finalTurn)
             {
-                foreach (var song in SetSongs.Where(s => s.PickState == PickState.None))
-                {
-                    song.PickState = PickState.Picked;
-                    PickedSongs.Add(song);
-                }
+                var lastSong = SetSongs.Single(s => s.PickState == PickState.None);
+                lastSong.PickState = PickState.Picked;
+                PickedSongs.Add(lastSong);
             }
 
             TurnIndicator++;
@@ -163,18 +174,19 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             PickedSongs.Clear();
 
             TurnIndicator = 0;
+            int songsToDraw = IsFinalsRound ? 11 : 7;
             var rnd = new Random();
 
             var songs = SelectedSongGroup.Songs.ToList();
 
             if (songs.Count(s =>
                     s.DifficultySingles.ContainsKey(SongDifficulty.Challenge) &&
-                    IsInDifficultyRange(s.DifficultySingles[SongDifficulty.Challenge])) < 7)
+                    IsInDifficultyRange(s.DifficultySingles[SongDifficulty.Challenge])) < songsToDraw)
             {
                 EventAggregator.Publish<PopupEvent, PopupEventArgs>(new PopupEventArgs("Not Enough Songs", "There aren't enough songs in this song pack to generate the set.", MessageIcon.Error));
                 return;
             }
-            while (SetSongs.Count < 7)
+            while (SetSongs.Count < songsToDraw)
             {
                 int randomIndex = rnd.Next(0, songs.Count);
                 var song = songs[randomIndex];
