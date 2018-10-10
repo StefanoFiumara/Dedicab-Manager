@@ -30,6 +30,7 @@
                 <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MinDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
                 <TextBlock Style="{StaticResource LabelStyle}" Text="Maximum Difficulty:" VerticalAlignment="Bottom" />
                 <ComboBox ItemsSource="{Binding SelectableDifficultyRanges}" SelectedItem="{Binding MaxDifficulty}" Margin="5" VerticalAlignment="Bottom" Width="45"/>
+                <CheckBox Content="Finals Round" IsChecked="{Binding IsFinalsRound}" VerticalAlignment="Bottom" Margin="5" Foreground="{StaticResource TextColor}" />
             </StackPanel>
         </StackPanel>
         

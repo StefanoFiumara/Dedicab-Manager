@@ -85,8 +85,12 @@ namespace DedicabUtility.Client.Modules.TournamentSet
             get => _isFinalsRound;
             set
             {
+                if (_isFinalsRound == value) return;
+
                 _isFinalsRound = value;
                 OnPropertyChanged();
+
+                if(SelectedSongGroup != null) OnGenerateSongSet();
             }
         }
 
@@ -156,7 +160,7 @@ namespace DedicabUtility.Client.Modules.TournamentSet
         private void OnBanSong()
         {
             SelectedSong.PickState = PickState.Banned;
-            var finalTurn = IsFinalsRound ? 5 : 9;
+            var finalTurn = IsFinalsRound ? 9 : 5;
 
             if(TurnIndicator == finalTurn)
             {
