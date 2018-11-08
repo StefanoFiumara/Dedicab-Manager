@@ -2,7 +2,8 @@
 {
     public enum Setting
     {
-        StepmaniaInstallLocation
+        StepmaniaInstallLocation,
+        UseAsyncLoad
     }
 
     public enum MessageIcon

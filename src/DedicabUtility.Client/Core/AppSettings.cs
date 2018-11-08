@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace DedicabUtility.Client.Core
 {
@@ -9,6 +10,15 @@ namespace DedicabUtility.Client.Core
         public static string Get(Setting setting)
         {
             return _config.AppSettings.Settings[setting.ToString()]?.Value;
+        }
+
+        public static T Get<T>(Setting setting)
+        {
+            var val = _config.AppSettings.Settings[setting.ToString()]?.Value;
+
+            if (val == null) return default(T);
+
+            return (T) Convert.ChangeType(val, typeof(T));
         }
 
         public static void Set(Setting setting, string value)
