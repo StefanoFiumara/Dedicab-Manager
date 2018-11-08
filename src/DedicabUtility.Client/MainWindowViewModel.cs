@@ -75,6 +75,11 @@ namespace DedicabUtility.Client
             TournamentSet = new TournamentSetViewModel(EventAggregator, Log, DataService, DataModel);
 
             VerifyStepmaniaInstallLocation();
+
+            if (AppSettings.Get(Setting.UseAsyncLoad) == null)
+            {
+                AppSettings.Set(Setting.UseAsyncLoad, "false");
+            }
         }
 
         private void InitializeCommands()
