@@ -74,12 +74,12 @@ namespace DedicabUtility.Client
             SongOverview = new SongOverviewViewModel(EventAggregator, Log, DataService, DataModel);
             TournamentSet = new TournamentSetViewModel(EventAggregator, Log, DataService, DataModel);
 
-            VerifyStepmaniaInstallLocation();
-
             if (AppSettings.Get(Setting.UseAsyncLoad) == null)
             {
-                AppSettings.Set(Setting.UseAsyncLoad, "false");
+                AppSettings.Set(Setting.UseAsyncLoad, "true");
             }
+
+            VerifyStepmaniaInstallLocation();
         }
 
         private void InitializeCommands()
@@ -117,19 +117,15 @@ namespace DedicabUtility.Client
             EventAggregator.Publish<SetIsBusyEvent, IsBusyEventArgs>(new IsBusyEventArgs(true, "Loading Songs..."));
 
             var stepmaniaDirLocation = AppSettings.Get(Setting.StepmaniaInstallLocation);
-            var enableAsyncLoad = AppSettings.Get<bool>(Setting.UseAsyncLoad);
+            var isAsyncLoadEnabled = AppSettings.Get<bool>(Setting.UseAsyncLoad);
 
-             List<IGrouping<string, SongMetadata>> songGroups;
+            List<IGrouping<string, SongMetadata>> songGroups;
 
-            if (enableAsyncLoad)
-            {
+            if (isAsyncLoadEnabled)
                 songGroups = await DataService.ScanSongDataAsync(stepmaniaDirLocation, ProgressNotifier);
-            }
             else
-            {
                 songGroups = await Task.Run(() => DataService.ScanSongData(stepmaniaDirLocation, ProgressNotifier));
-            }
-                        
+
             var groupModels = new List<SongGroupModel>();
 
             foreach (var songGroup in songGroups)
