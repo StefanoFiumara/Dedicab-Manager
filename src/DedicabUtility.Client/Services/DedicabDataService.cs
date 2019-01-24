@@ -58,7 +58,7 @@ namespace DedicabUtility.Client.Services
 
             var logEntries = new ConcurrentBag<LogEntry>();
 
-            var consumers = Enumerable.Range(0, Environment.ProcessorCount)
+            var consumers = Enumerable.Range(0, Environment.ProcessorCount * 2)
                 .Select(_ => Task.Run(() =>
                 {
                     foreach (string file in fileQueue.GetConsumingEnumerable())
@@ -75,18 +75,10 @@ namespace DedicabUtility.Client.Services
                             var logEntry = new LogEntry
                             {
                                 Timestamp = DateTime.Now,
-                                Message = $"{nameof(ScanSongDataAsync)} - Could not load file at: {file}",
+                                Message = $"{nameof(ScanSongDataAsync)} - Could not load file at: {file}\n{e}",
                                 LogLevel = LogLevel.Error
                             };
-                            var exceptionEntry = new LogEntry
-                            {
-                                Timestamp = DateTime.Now.AddMilliseconds(1),
-                                Message = $"{e}",
-                                LogLevel = LogLevel.Error
-                            };
-
                             logEntries.Add(logEntry);
-                            logEntries.Add(exceptionEntry);
                         }
                     }
                 }));
@@ -96,8 +88,7 @@ namespace DedicabUtility.Client.Services
             stopwatch.Stop();
             LogAsyncEntries(logEntries);
 
-            _log.Info($"{nameof(ScanSongDataAsync)} - Songs Loaded: {result.Count}");
-            _log.Info($"{nameof(ScanSongDataAsync)} - Loading time: {stopwatch.ElapsedMilliseconds} ms");
+            _log.Info($"{nameof(ScanSongDataAsync)} - Songs Loaded: {result.Count}, Time Elapsed: {stopwatch.ElapsedMilliseconds} ms");
             return result.GroupBy(s => s.SmFile.Group).ToList();
         }
 
@@ -120,8 +111,7 @@ namespace DedicabUtility.Client.Services
                     }
                     catch (Exception e)
                     {
-                        _log.Error($"{nameof(ScanSongData)} - Could not load file at: {f}");
-                        _log.Error($"{e}");
+                        _log.Error($"{nameof(ScanSongData)} - Could not load file at: {f}\n{e}");
                         return null;
                     }
 
